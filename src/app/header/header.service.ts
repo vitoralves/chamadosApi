@@ -1,0 +1,12 @@
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class HeaderService {
+
+  constructor() { }
+
+  public empresa(){
+      return 'EmpNome';
+  }
+
+}

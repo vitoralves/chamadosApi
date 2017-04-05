@@ -1,0 +1,15 @@
+.back {
+  height: 100%;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #dedede !important;
+}
+.back:before,
+.back:after {
+  content: " ";
+  display: table;
+}
+.back:after {
+  clear: both;
+}
