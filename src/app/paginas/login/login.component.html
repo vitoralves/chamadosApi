@@ -6,6 +6,12 @@
   <div class="login-box-body">
     <p class="login-box-msg">Faça o login para iniciar uma sessão</p>
 
+    <div class="alert alert-warning alert-dismissible" *ngIf="alerta">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><i class="icon fa fa-warning"></i> Alerta!</h4>
+            {{mensagem}}
+    </div>
+
     <form (ngSubmit)="logar()">
       <div class="form-group has-feedback">
         <input type="email" class="form-control" placeholder="Email" required [(ngModel)]="email" name="email">

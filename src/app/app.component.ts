@@ -14,10 +14,11 @@ export class AppComponent implements OnInit{
   // this.rootComp.cssClass = 'hold-transition skin-blue sidebar-mini'; => construção do resto dos components
   @HostBinding('class') public cssClass = '';
   backLogin: string;
-
+  logado: boolean = false;
 
   constructor(private util: UtilService){
-
+    this.logado = this.util.usuarioLogado();
+    console.log("app component");
   }
 
   ngOnInit(){

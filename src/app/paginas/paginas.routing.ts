@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { LogoutComponent } from './logout/logout.component';
 import { Guarda } from '../guarda/guarda';
+import { AppComponent } from '../app.component';
 
 //rotas da aplicação
 const appRoutes: Routes = [

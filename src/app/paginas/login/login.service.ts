@@ -13,6 +13,6 @@ export class LoginService {
   constructor(private http: Http, private util: UtilService) {  }
 
   logar(email, senha){
-    return this.http.get('http://localhost:3000/api/logar/'+email+'/'+md5(senha)+'/'+this.util.retornaToken()).map(res => res.json()).toPromise();
+      return this.http.get('http://localhost:3000/api/logar/'+email+'/'+md5(senha)+'/'+this.util.retornaToken()).map(res => res.json()).toPromise();
   }
 }
