@@ -23,14 +23,17 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    if (this.util.usuarioLogado()){
+      this.rota.navigate(['/pages/home']);
+    }
   }
 
   logar(){
       this.service.logar(this.email,this.senha).then(data => {
-          if(data.data[0].id){
-            window.sessionStorage.setItem('usuario', JSON.stringify(data.data[0]));
-            this.rota.navigate(['/home']);
+          if(data.data[0] && data.data[0].id){
+            let id = data.data[0].id;
+            window.sessionStorage.setItem('idusuario', id);
+            this.rota.navigate(['/pages/home']);
           }else{
             this.alerta = true;
             this.senha = '';

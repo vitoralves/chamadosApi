@@ -11,15 +11,19 @@ import { UtilService } from '../util/util.service';
 export class HeaderComponent implements OnInit {
 
   empresa: string;
-  logado: boolean = false;
+  usuario;
 
   constructor(private service: HeaderService, private util: UtilService) {
 
   }
 
   ngOnInit() {
-    this.logado = this.util.usuarioLogado();
-    
+    this.util.retornaUsuario().then(data => {
+      this.usuario = data.data;
+      this.service.getEmpresa(this.usuario.empresa).then(data => {
+          this.empresa = data.data.nome;
+      });
+    });
   }
 
 }

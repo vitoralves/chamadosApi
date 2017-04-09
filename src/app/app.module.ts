@@ -5,8 +5,6 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
 
 import { HeaderService } from './header/header.service';
 import { UtilService } from './util/util.service';
@@ -17,9 +15,7 @@ import { PaginasModule } from './paginas/paginas.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

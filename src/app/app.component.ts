@@ -1,27 +1,18 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 
-import { UtilService } from './util/util.service';
-
 @Component({
-  selector: 'body',
+  selector: 'body', //selector desse cara é o component body
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit{
+export class AppComponent {
   //alterar o css do body na tela de login e nas demais, para o correto funcionamento do template
   //this.rootComp.cssClass = 'hold-transition login-page'; => construção do login
   // this.rootComp.cssClass = 'hold-transition skin-blue sidebar-mini'; => construção do resto dos components
   @HostBinding('class') public cssClass = '';
-  backLogin: string;
-  logado: boolean = false;
 
-  constructor(private util: UtilService){
-    this.logado = this.util.usuarioLogado();
-    console.log("app component");
+  constructor(){
   }
 
-  ngOnInit(){
-
-  }
 }
