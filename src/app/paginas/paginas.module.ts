@@ -9,10 +9,11 @@ import { PaginasComponent } from './paginas.component';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { EmpresasComponent } from './empresas/empresas.component';
 
 @NgModule({
   imports: [CommonModule,routing,FormsModule],
-  declarations: [LoginComponent, HomeComponent, LogoutComponent, PaginasComponent, HeaderComponent, FooterComponent, PerfilComponent]
+  declarations: [LoginComponent, HomeComponent, LogoutComponent, PaginasComponent, HeaderComponent, FooterComponent, PerfilComponent, EmpresasComponent]
 })
 
 export class PaginasModule {

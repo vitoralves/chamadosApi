@@ -33,7 +33,7 @@
   <!--<link rel="stylesheet" href="/tema/plugins/daterangepicker/daterangepicker.css"> -->
   <!-- bootstrap wysihtml5 - text editor -->
   <!--<link rel="stylesheet" href="/tema/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"> -->
-  <!-- datebelas dinamicas -->
+  <!-- data tables dinamicas -->
   <link rel="stylesheet" href="/src/tema/plugins/datatables/dataTables.bootstrap.css">
 </head>
 <body >
@@ -84,15 +84,7 @@
   <!-- page script -->
   <script>
   $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false
-    });
+    $("#dataTables").DataTable();
   });
   </script>
 </body>

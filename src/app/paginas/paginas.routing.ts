@@ -8,6 +8,7 @@ import { Guarda } from '../guarda/guarda';
 import { AppComponent } from '../app.component';
 import { PaginasComponent } from './paginas.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { EmpresasComponent } from './empresas/empresas.component';
 
 //rotas da aplicação
 const appRoutes: Routes = [
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent, canActivate: [Guarda]},
       { path: 'perfil', component: PerfilComponent, canActivate: [Guarda]},
+      { path: 'empresas', component: EmpresasComponent, canActivate: [Guarda]}
     ]
   }
 ];

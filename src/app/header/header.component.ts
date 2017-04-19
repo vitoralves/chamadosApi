@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
 
   empresa: string;
   usuario;
+  admin: boolean = false;
 
   constructor(private service: HeaderService, private util: UtilService) {
 
@@ -20,6 +21,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.util.retornaUsuario().then(data => {
       this.usuario = data.data;
+      this.admin = this.usuario.adm;
       this.service.getEmpresa(this.usuario.empresa).then(data => {
           this.empresa = data.data.nome;
       });

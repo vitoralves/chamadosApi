@@ -69,6 +69,18 @@
     <ul class="sidebar-menu">
       <li class="header">MENU DE NAVEGAÇÃO</li>
       <li><a routerLink="/pages/home"><i class="fa fa-home"></i> <span>Home</span></a></li>
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-plus"></i>
+            <span>Cadastros</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li *ngIf="admin"><a routerLink="/pages/empresas"><i class="fa fa-circle-o"></i> Empresas</a></li>
+          </ul>
+        </li>
     </ul>
   </section>
   <!-- /.sidebar -->
