@@ -22,7 +22,7 @@ export class PerfilComponent implements OnInit {
   constructor(private rootComp: AppComponent, private util: UtilService, private service: PerfilService, private rota: Router) {
     this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini';
   }
-
+  
   ngOnInit() {
     this.util.retornaUsuario().then(data => {
       this.usuario = data.data;

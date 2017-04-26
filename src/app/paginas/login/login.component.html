@@ -14,11 +14,11 @@
 
     <form (ngSubmit)="logar()">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email" required [(ngModel)]="email" name="email">
+        <input type="email" class="form-control" placeholder="Email" ng-model="email" name="email" required>
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Senha" required [(ngModel)]="senha" name="senha">
+        <input type="password" class="form-control" placeholder="Senha" ng-model="senha" name="senha" required>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
@@ -30,7 +30,7 @@
       </div>
     </form>
 
-    <a routerLink="/recuperar-senha">Eu perdi minha senha</a><br>
+    <a [routerLink]="['/pages/home']">Eu perdi minha senha</a><br>
     <!--<a routerLink="/registrar" class="text-center">Registrar</a>-->
 
   </div>
