@@ -19,10 +19,15 @@
         <!-- general form elements -->
         <div class="box box-primary">
           <div class="box-header with-border">
-            <div class="alert alert-warning alert-dismissible" *ngIf="mensagem">
+            <div class="alert alert-warning alert-dismissible" *ngIf="mensagemAlerta">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
               <h4><i class="icon fa fa-warning"></i> Alerta!</h4>
                     Ocorreu um erro ao salvar registro!
+            </div>
+            <div class="alert alert-success alert-dismissible" *ngIf="mensagemSucesso">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h4><i class="icon fa fa-warning"></i> Sucesso</h4>
+                    Registro salvo com sucesso!
             </div>
           </div>
           <!-- /.box-header -->

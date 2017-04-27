@@ -8,14 +8,13 @@ import { UtilService } from '../util/util.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  providers: [LoginService]
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
   usuario: any = {
-    email: '',
-    senha: ''
+    email: null,
+    senha: null
   }
 
   alerta: boolean = false;

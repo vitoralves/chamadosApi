@@ -17,12 +17,13 @@ export class PerfilComponent implements OnInit {
     nome: '',
     email: ''
   }
-  mensagem: boolean = false;
+  mensagemAlerta: boolean = false;
+  mensagemSucesso: boolean = false;
 
   constructor(private rootComp: AppComponent, private util: UtilService, private service: PerfilService, private rota: Router) {
     this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini';
   }
-  
+
   ngOnInit() {
     this.util.retornaUsuario().then(data => {
       this.usuario = data.data;
@@ -32,10 +33,9 @@ export class PerfilComponent implements OnInit {
   salvar(){
     this.service.salvar(this.usuario).then(data => {
       if (data){
-        window.location.reload();
-        this.rota.navigate(['/pages/home']);
+        this.mensagemSucesso = true;
       }else{
-        this.mensagem = true;
+        this.mensagemAlerta = true;
       }
     });
   }
