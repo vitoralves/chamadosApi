@@ -13,8 +13,11 @@ import { UtilService } from '../util/util.service';
 })
 export class LoginComponent implements OnInit {
 
-  email;
-  senha;
+  usuario: any = {
+    email: '',
+    senha: ''
+  }
+
   alerta: boolean = false;
   mensagem: string = '';
 
@@ -29,14 +32,14 @@ export class LoginComponent implements OnInit {
   }
 
   logar(){
-      this.service.logar(this.email,this.senha).then(data => {
+      this.service.logar(this.usuario.email,this.usuario.senha).then(data => {
           if(data.data[0] && data.data[0].id){
             let id = data.data[0].id;
             window.sessionStorage.setItem('idusuario', id);
             this.rota.navigate(['/pages/home']);
           }else{
             this.alerta = true;
-            this.senha = '';
+            this.usuario.senha = '';
             this.mensagem = 'Usuário não encontrado!';
           }
       }).catch((e) => {

@@ -5,7 +5,8 @@ import { PaginasComponent } from './paginas.component';
 
 //rotas da aplicação
 const appRoutes: Routes = [
-  {
+  {path: '', loadChildren: '../login/login.module#LoginModule'},
+  {    
     path: 'pages', component: PaginasComponent,
     children: [
       { path: 'home', loadChildren: './home/home.module#HomeModule'}
