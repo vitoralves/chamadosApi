@@ -7,7 +7,6 @@ import { EmpresasComponent } from './empresas.component';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { PaginationModule } from 'ngx-bootstrap';
 
-
 @NgModule({
     imports: [
         CommonModule,
