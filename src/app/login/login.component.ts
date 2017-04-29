@@ -32,20 +32,21 @@ export class LoginComponent implements OnInit {
   }
 
   logar(){
-      this.service.logar(this.usuario.email,this.usuario.senha).then(data => {
-          if(data.data[0] && data.data[0].id){
-            let id = data.data[0].id;
-            window.sessionStorage.setItem('idusuario', id);
-            this.rota.navigate(['/pages/home']);
-          }else{
-            this.alerta = true;
-            this.usuario.senha = '';
-            this.mensagem = 'Usuário não encontrado!';
-          }
-      }).catch((e) => {
-        console.log("erro "+e);
+    this.alerta = false;
+    this.service.logar(this.usuario.email,this.usuario.senha).then(data => {
+      if(data.data[0] && data.data[0].id){
+        let id = data.data[0].id;
+        window.sessionStorage.setItem('idusuario', id);
+        this.rota.navigate(['/pages/home']);
+      }else{
         this.alerta = true;
-        this.mensagem = 'Erro ao estabelecer comunicação com servidor.';
-      })
+        this.usuario.senha = '';
+        this.mensagem = 'Usuário não encontrado!';
+      }
+    }).catch((e) => {
+      console.log("erro "+e);
+      this.alerta = true;
+      this.mensagem = 'Erro ao estabelecer comunicação com servidor.';
+    })
   }
 }

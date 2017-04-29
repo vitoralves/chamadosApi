@@ -19,38 +19,43 @@
       <div class="col-md-12">
         <!-- general form elements -->
         <div class="box box-primary">
-          <div class="box-header with-border">
+          <div class="box-header with-border"></div>
 
-            <div class="row">
-              <div class="col-md-2">
-                  <button type="button" class="btn btn-block btn-primary" (click)="novo()">Adicionar</button>
-              </div>
-            </div>
-
-            <div class="box-body">
-              <table id="dataTables" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Nome</th>
-                    <th>Telefone</th>
-                    <th>Endereço</th>
-                    <th>Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of empresas">
-                    <td>{{item.id}}</td>
-                    <td>{{item.nome}}</td>
-                    <td>{{item.telefone}}</td>
-                    <td>{{item.endereco}}</td>
-                    <td>{{item.email}}</td>
-                  </tr>
-                </table>
-              </div>
+          <div class="row">
+            <div class="col-md-2">
+              <button type="button" class="btn btn-block btn-primary" (click)="novo()">Adicionar</button>
             </div>
           </div>
-        </div>
+
+          <div class="box-body">
+            <input *ngIf="config.filtering" placeholder="Filtro geral"
+            [ngTableFiltering]="config.filtering"
+            class="form-control"
+            (tableChanged)="onChangeTable(config)"/>
+
+            <ng-table [config]="config"
+            (tableChanged)="onChangeTable(config)"
+            (cellClicked)="onCellClick($event)"
+            [rows]="rows" [columns]="columns">
+          </ng-table>
+
+          <pagination *ngIf="config.paging"
+          class="pagination-sm"
+          [(ngModel)]="page"
+          [totalItems]="length"
+          [itemsPerPage]="itemsPerPage"
+          [maxSize]="maxSize"
+          [boundaryLinks]="true"
+          [rotate]="false"
+          (pageChanged)="onChangeTable(config, $event)"
+          (numPages)="numPages = $event">
+        </pagination>
+
+        <pre *ngIf="config.paging" class="card card-block card-header">Página: {{page}} / {{numPages}}</pre>
       </div>
-    </section>
+    </div>
   </div>
+</div>
+
+</section>
+</div>

@@ -8,8 +8,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.css'],
-  providers: [PerfilService]
+  styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
 
@@ -18,11 +17,15 @@ export class PerfilComponent implements OnInit {
     email: ''
   }
   mensagem: boolean = false;
+  titulo: string = '';
+  texto: string = '';
+  alertCss: string = '';
+  icon: string = '';
 
   constructor(private rootComp: AppComponent, private util: UtilService, private service: PerfilService, private rota: Router) {
     this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini';
   }
-  
+
   ngOnInit() {
     this.util.retornaUsuario().then(data => {
       this.usuario = data.data;
@@ -32,10 +35,17 @@ export class PerfilComponent implements OnInit {
   salvar(){
     this.service.salvar(this.usuario).then(data => {
       if (data){
-        window.location.reload();
-        this.rota.navigate(['/pages/home']);
+        this.mensagem = true;
+        this.titulo = 'Sucesso';
+        this.texto = 'Alterações salvas com sucesso!';
+        this.alertCss = 'alert-success';
+        this.icon = 'fa-success';
       }else{
         this.mensagem = true;
+        this.titulo = 'Alerta';
+        this.texto = 'Falha ao salvar registro!';
+        this.alertCss = 'alert-warning';
+        this.icon = 'fa-warning';
       }
     });
   }
