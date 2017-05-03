@@ -4,13 +4,10 @@ import { AppComponent } from '../../app.component';
 import { EmpresasService } from './empresas.service';
 import { Router } from '@angular/router';
 
-import { TableData } from './table-data';
-
 @Component({
   selector: 'app-empresas',
   templateUrl: './empresas.component.html',
-  styleUrls: ['./empresas.component.css'],
-  providers: [EmpresasService]
+  styleUrls: ['./empresas.component.css']
 })
 export class EmpresasComponent implements OnInit {
 
@@ -143,10 +140,6 @@ export class EmpresasComponent implements OnInit {
     let sortedData = this.changeSort(filteredData, this.config);
     this.rows = page && config.paging ? this.changePage(page, sortedData) : sortedData;
     this.length = sortedData.length;
-  }
-
-  public onCellClick(data: any): any {
-    console.log(data);
   }
 
 }
