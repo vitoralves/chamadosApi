@@ -11,11 +11,19 @@ import { EmpresasNovoService } from './empresas-novo.service';
 export class EmpresasNovoComponent implements OnInit {
 
   //informações referentes ao alert
-  mensagem: string = '';
+  mensagem: boolean = false;
   titulo: string = '';
   icon: string = '';
-  text: string = '';
+  texto: string = '';
   alertCss: string = '';
+
+  //entidade que vou trabalhar no form
+  empresa: any = {
+    nome: null,
+    telefone: null,
+    email: null,
+    endereco: null
+  }
 
 
   constructor(private rootComp: AppComponent, private service: EmpresasNovoService) {
@@ -23,12 +31,32 @@ export class EmpresasNovoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.inicializaEntidade();
+  }
+
+  inicializaEntidade(){
+    this.empresa.nome = null;
+    this.empresa.telefone = null;
+    this.empresa.email = null;
+    this.empresa.endereco = null;
   }
 
   salvar(form){
-    console.log(form);
-    /*this.service.adicionar(form.values).then(result => {
-      console.log(result);
-    })*/
+    this.service.adicionar(form.value).then(result => {
+      if (result.status === 200){
+        this.mensagem = true;
+        this.texto = 'Empresa salva com sucesso!';
+        this.titulo = 'Sucesso';
+        this.icon = 'fa-check';
+        this.alertCss = 'alert-success';
+      }else{
+        this.mensagem = true;
+        this.texto = 'Ocorreu um erro ao salvar empresa!';
+        this.titulo = 'Erro';
+        this.icon = 'fa-ban';
+        this.alertCss = 'alert-danger';
+      }
+      form.reset();
+    })
   }
 }
