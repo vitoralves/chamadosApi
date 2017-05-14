@@ -36,6 +36,8 @@
             <ng-table [config]="config"
             (tableChanged)="onChangeTable(config)"
             (cellClicked)="onCellClick($event)"
+            (deletarClick)="deletar($event)"
+            (deleteClicked)="onDeleteClick($event)"
             [rows]="rows" [columns]="columns">
           </ng-table>
 

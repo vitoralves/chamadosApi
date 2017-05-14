@@ -5,7 +5,8 @@ import { EmpresasNovoComponent } from './empresas-novo/empresas-novo.component';
 
 const routes: Routes = [
     { path: '', component: EmpresasComponent },
-    { path: 'novo', component: EmpresasNovoComponent }
+    { path: 'novo', component: EmpresasNovoComponent },
+    { path: ':id', component: EmpresasNovoComponent }
 ];
 
 @NgModule({

@@ -13,4 +13,8 @@ export class EmpresasService {
   retornaTodasEmpresas(){
     return this.http.get('http://localhost:3000/api/empresas/all/'+this.util.retornaToken()).map(res => res.json()).toPromise();
   }
+
+  apagarItem(id: number){
+    return this.http.delete('http://localhost:3000/api/empresa/delete/'+id).map(res => res.json()).toPromise();
+  }
 }

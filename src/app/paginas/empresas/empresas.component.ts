@@ -4,6 +4,8 @@ import { AppComponent } from '../../app.component';
 import { EmpresasService } from './empresas.service';
 import { Router } from '@angular/router';
 
+declare var swal: any;
+
 @Component({
   selector: 'app-empresas',
   templateUrl: './empresas.component.html',
@@ -18,6 +20,7 @@ export class EmpresasComponent implements OnInit {
     {title: 'ID', name: 'id', filtering: {filterString: '', placeholder: 'Filtrar por id'}},
     {title: 'Nome', name: 'nome', filtering: {filterString: '', placeholder: 'Filtrar por Nome'}},
     {title: 'Telefone', name: 'telefone', filtering: {filterString: '', placeholder: 'Filtrar por Telefone'}},
+    {title: 'Celular', name: 'celular', filtering: {filterString: '', placeholder: 'Filtrar por Celular'}},
     {title: 'Email', name: 'email', filtering: {filterString: '', placeholder: 'Filtrar por Email'}},
     {title: 'Endereço', name: 'endereco', filtering: {filterString: '', placeholder: 'Filtrar por Endereço'}},
   ];
@@ -96,7 +99,18 @@ export class EmpresasComponent implements OnInit {
     this.columns.forEach((column:any) => {
       if (column.filtering) {
         filteredData = filteredData.filter((item:any) => {
+          if (item[column.name] === null){
+            var array = [
+              {
+                "0": 0,
+                "index": 0,
+                "input": ""
+              }
+            ];
+            return array;
+          }else{
             return item[column.name].toString().match(column.filtering.filterString);
+          }
         });
       }
     });
@@ -114,7 +128,9 @@ export class EmpresasComponent implements OnInit {
     filteredData.forEach((item:any) => {
       let flag = false;
       this.columns.forEach((column:any) => {
-        if (item[column.name].toString().match(this.config.filtering.filterString)) {
+        if(item[column.name] === null){
+          flag = false;
+        }else if (item[column.name].toString().match(this.config.filtering.filterString)) {
           flag = true;
         }
       });
@@ -140,6 +156,45 @@ export class EmpresasComponent implements OnInit {
     let sortedData = this.changeSort(filteredData, this.config);
     this.rows = page && config.paging ? this.changePage(page, sortedData) : sortedData;
     this.length = sortedData.length;
+  }
+
+  public onCellClick(data: any) {
+    this.rota.navigate(['pages/empresas/', data.row.id]);
+  }
+
+  public deletar(data: any){
+    swal({
+      title: 'Você tem certeza?',
+      text: "Essa ação não poderá ser desfeita!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, apagar!',
+      cancelButtonText: 'Cancelar'
+    }).then(function() {
+      this.apagarItem(data.row.id).then(result => {
+        if(result.status === 200){
+          swal(
+            'Apagado!',
+            'O item de id '+data.row.id+', foi apagado!',
+            'success'
+          );
+        }else{
+          swal(
+            'Erro!',
+            'Ocorreu um erro ao apagar o item '+data.row.id+'!',
+            'error'
+          );
+        }
+      });
+    })
+  }
+
+  public apagarItem(id: number){
+    this.service.apagarItem(id).then(result => {
+      return result;
+    })
   }
 
 }

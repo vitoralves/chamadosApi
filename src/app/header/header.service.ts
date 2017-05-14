@@ -10,7 +10,7 @@ export class HeaderService {
   constructor(private http: Http, private util: UtilService) { }
 
   getEmpresa(id: number){
-    return this.http.get('http://localhost:3000/api/empresa/'+id+'/'+this.util.retornaToken()).map(res => res.json()).toPromise();
+    return this.http.get('http://localhost:3000/api/empresa/'+id).map(res => res.json()).toPromise();
   }
 
 }

@@ -3,13 +3,13 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Inserir nova empresa
+      {{tituloPagina}}
     </h1>
     <ol class="breadcrumb">
       <li><a routerLink="/pages/home"><i class="fa fa-dashboard"></i> Home</a></li>
       <li>Cadastros</li>
       <li><a routerLink="/pages/empresas">Empresas</a></li>
-      <li class="active">Novo</li>
+      <li class="active">{{breadCrumb}}</li>
     </ol>
   </section>
 
@@ -31,6 +31,9 @@
           <!-- form start -->
           <form #form="ngForm" role="form" (ngSubmit)="salvar(form)">
             <div class="box-body">
+
+              <input id="id" type="text" class="form-control" [ngModel]="empresa.id" name="id" [style.display]="'none'" />
+
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group"
@@ -44,56 +47,56 @@
                   </div>
                 </div>
               </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="celular" class="control-label">Celular</label>
+                  <input id="celular" type="text" class="form-control" placeholder="Celular" [ngModel]="empresa.celular" name="celular" #cel="ngModel" [textMask]="{mask: celMask}"/>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="telefone" class="control-label">Telefone</label>
+                  <input id="telefone" type="text" class="form-control" placeholder="Telefone" [ngModel]="empresa.telefone" name="telefone" #tel="ngModel" [textMask]="{mask: telMask}"/>
+                </div>
+              </div>
               <div class="col-md-4">
                 <div class="form-group"
-                [class.has-error]="!tel.valid && tel.touched"
-                [class.has-feedback]="!tel.valid && tel.touched">
-                <label for="telefone" class="control-label">Telefone</label>
-                <input id="telefone" type="text" class="form-control" placeholder="Telefone" [ngModel]="empresa.telefone" name="telefone" required #tel="ngModel"/>
-                <div *ngIf="!tel.valid && tel.touched" class="alert alert-danger" role="alert">
+                [class.has-error]="!email.valid && email.touched"
+                [class.has-feedback]="!email.valid && email.touched">
+                <label for="email" class="control-label">Email</label>
+                <input id="email" type="email" class="form-control" placeholder="Email" [ngModel]="empresa.email" name="email" required email #email="ngModel"/>
+                <div *ngIf="!email.valid && email.touched" class="alert alert-danger" role="alert">
                   <i class="icon fa fa-ban"></i>
-                  Esse campo é obrigatório!
+                  Insira um email válido!
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group"
-              [class.has-error]="!email.valid && email.touched"
-              [class.has-feedback]="!email.valid && email.touched">
-              <label for="email" class="control-label">Email</label>
-              <input id="email" type="email" class="form-control" placeholder="Email" [ngModel]="empresa.email" name="email" required email #email="ngModel"/>
-              <div *ngIf="!email.valid && email.touched" class="alert alert-danger" role="alert">
+              [class.has-error]="!end.valid && end.touched"
+              [class.has-feedback]="!end.valid && end.touched">
+              <label for="end" class="control-label">Endereço</label>
+              <input id="end" type="text" class="form-control" placeholder="Endereço" required="true" [ngModel]="empresa.endereco" name="endereco" required #end="ngModel"/>
+              <div *ngIf="!end.valid && end.touched" class="alert alert-danger" role="alert">
                 <i class="icon fa fa-ban"></i>
-                Insira um email válido!
+                Esse campo é obrigatório!
               </div>
             </div>
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group"
-            [class.has-error]="!end.valid && end.touched"
-            [class.has-feedback]="!end.valid && end.touched">
-            <label for="end" class="control-label">Endereço</label>
-            <input id="end" type="text" class="form-control" placeholder="Endereço" required="true" [ngModel]="empresa.endereco" name="endereco" required #end="ngModel"/>
-            <div *ngIf="!end.valid && end.touched" class="alert alert-danger" role="alert">
-              <i class="icon fa fa-ban"></i>
-              Esse campo é obrigatório!
-            </div>
-          </div>
-        </div>
       </div>
+      <!-- /.box-body -->
 
-    </div>
-    <!-- /.box-body -->
-
-    <div class="box-footer">
-      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
-    </div>
-  </form>
-</div>
-<!-- /.box -->
+      <div class="box-footer">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
+      </div>
+    </form>
+  </div>
+  <!-- /.box -->
 </div>
 </div>
 </section>

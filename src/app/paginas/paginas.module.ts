@@ -16,7 +16,7 @@ import { UtilService } from '../util/util.service';
   declarations: [
     PaginasComponent,
     HeaderComponent,
-    FooterComponent,
+    FooterComponent
   ]
 })
 

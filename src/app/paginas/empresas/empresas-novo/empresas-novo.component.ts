@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
 import { EmpresasNovoService } from './empresas-novo.service';
 
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-empresas-novo',
   templateUrl: './empresas-novo.component.html',
@@ -10,6 +13,9 @@ import { EmpresasNovoService } from './empresas-novo.service';
 })
 export class EmpresasNovoComponent implements OnInit {
 
+  //informacoes de titulo da página
+  tituloPagina: string = '';
+  breadCrumb: string = '';
   //informações referentes ao alert
   mensagem: boolean = false;
   titulo: string = '';
@@ -17,46 +23,74 @@ export class EmpresasNovoComponent implements OnInit {
   texto: string = '';
   alertCss: string = '';
 
+  public celMask = ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+  public telMask = ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+
   //entidade que vou trabalhar no form
   empresa: any = {
+    id:null,
     nome: null,
     telefone: null,
+    celular: null,
     email: null,
     endereco: null
   }
 
 
-  constructor(private rootComp: AppComponent, private service: EmpresasNovoService) {
+  constructor(private rootComp: AppComponent, private service: EmpresasNovoService, private rotaAtiva: ActivatedRoute, private rota: Router) {
     this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini';
+    this.rotaAtiva.params.subscribe(params => {
+      if (params.id > 0){
+        this.tituloPagina = 'Editar Empresa '+params.id;
+        this.breadCrumb = 'Editar';
+        this.service.buscarPorId(params.id).then(result => {
+          if(result.data.id > 0){
+            this.empresa = result.data;
+          }else{
+            this.rota.navigate(['pages/nao-encontrado']);
+          }
+        });
+      }else{
+          this.tituloPagina = 'Inserir nova Empresa';
+          this.breadCrumb = 'Novo';
+      }
+    })
   }
 
   ngOnInit() {
-    this.inicializaEntidade();
-  }
 
-  inicializaEntidade(){
-    this.empresa.nome = null;
-    this.empresa.telefone = null;
-    this.empresa.email = null;
-    this.empresa.endereco = null;
   }
 
   salvar(form){
-    this.service.adicionar(form.value).then(result => {
-      if (result.status === 200){
-        this.mensagem = true;
-        this.texto = 'Empresa salva com sucesso!';
-        this.titulo = 'Sucesso';
-        this.icon = 'fa-check';
-        this.alertCss = 'alert-success';
-      }else{
-        this.mensagem = true;
-        this.texto = 'Ocorreu um erro ao salvar empresa!';
-        this.titulo = 'Erro';
-        this.icon = 'fa-ban';
-        this.alertCss = 'alert-danger';
-      }
-      form.reset();
-    })
+    if (form.value.id > 0){
+      this.service.update(form.value).then(result => {
+        if (result.status === 200){
+          this.rota.navigate(['/pages/empresas']);
+        }else{
+          this.mensagem = true;
+          this.texto = 'Ocorreu um erro ao salvar empresa!';
+          this.titulo = 'Erro';
+          this.icon = 'fa-ban';
+          this.alertCss = 'alert-danger';
+        }
+      })
+    }else{
+      this.service.adicionar(form.value).then(result => {
+        if (result.status === 200){
+          this.mensagem = true;
+          this.texto = 'Empresa salva com sucesso!';
+          this.titulo = 'Sucesso';
+          this.icon = 'fa-check';
+          this.alertCss = 'alert-success';
+        }else{
+          this.mensagem = true;
+          this.texto = 'Ocorreu um erro ao salvar empresa!';
+          this.titulo = 'Erro';
+          this.icon = 'fa-ban';
+          this.alertCss = 'alert-danger';
+        }
+        form.reset();
+      })
+    }
   }
 }
