@@ -185,7 +185,11 @@ function deleteEmpresa(req, res, next){
       status: 'success'
     })
   }).catch(function (e){
-    return next(e);
+      res.status(200)
+      .json({
+        status: 'error',
+        message: ''+e
+      });
   })
 }
 
