@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../app.component';
 import { EmpresasService } from './empresas.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 declare var swal: any;
 
@@ -45,12 +46,15 @@ export class EmpresasComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.iniciarTabela();
+  }
+
+  public iniciarTabela(){
     this.service.retornaTodasEmpresas().then(data => {
       this.data = data.data;
       this.length = data.data.length;
       this.onChangeTable(this.config);
     });
-
   }
 
   novo() {
@@ -162,8 +166,8 @@ export class EmpresasComponent implements OnInit {
     this.rota.navigate(['pages/empresas/', data.row.id]);
   }
 
-  public deletar(data: any){
-    swal({
+  public mostraAlert(): Promise<any>{
+    return swal({
       title: 'Você tem certeza?',
       text: "Essa ação não poderá ser desfeita!",
       type: 'warning',
@@ -173,27 +177,36 @@ export class EmpresasComponent implements OnInit {
       confirmButtonText: 'Sim, apagar!',
       cancelButtonText: 'Cancelar'
     }).then(function() {
-      this.apagarItem(data.row.id).then(result => {
-        if(result.status === 200){
-          swal(
-            'Apagado!',
-            'O item de id '+data.row.id+', foi apagado!',
-            'success'
-          );
-        }else{
-          swal(
-            'Erro!',
-            'Ocorreu um erro ao apagar o item '+data.row.id+'!',
-            'error'
-          );
-        }
-      });
+      return true;
+    }, function (dismiss) {
+      return false;
+    })
+  }
+
+  public deletar(data: any){
+    this.mostraAlert().then(retorno => {
+      if (retorno) {
+        this.apagarItem(data.row.id);
+      }
     })
   }
 
   public apagarItem(id: number){
     this.service.apagarItem(id).then(result => {
-      return result;
+      if (result.status === 'success'){
+        swal(
+          'Apagado!',
+          'O item de código '+id+' foi apagado!',
+          'success'
+        )
+        this.iniciarTabela();
+      }else{
+        swal(
+          'Erro!',
+          'Ocorreu um erro ao apagar o registro: <b>'+result.message+'</b>',
+          'error'
+        )
+      }
     })
   }
 

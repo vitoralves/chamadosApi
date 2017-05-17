@@ -6,11 +6,11 @@ import { EmpresasRoutingModule } from './empresas.routing.module';
 import { EmpresasComponent } from './empresas.component';
 import { Ng2TableModule } from 'ng2-table/ng2-table'; //https://github.com/valor-software/ng2-table
 import { PaginationModule } from 'ngx-bootstrap';
-import { EmpresasNovoComponent } from './empresas-novo/empresas-novo.component';
+import { EmpresasDetalheComponent } from './empresas-detalhe/empresas-detalhe.component';
 
 //provedores
 import { EmpresasService } from './empresas.service';
-import { EmpresasNovoService } from './empresas-novo/empresas-novo.service';
+import { EmpresasDetalheService } from './empresas-detalhe/empresas-detalhe.service';
 
 import { TextMaskModule } from 'angular2-text-mask';
 
@@ -25,8 +25,8 @@ import { TextMaskModule } from 'angular2-text-mask';
     ],
     declarations: [
         EmpresasComponent,
-        EmpresasNovoComponent
+        EmpresasDetalheComponent
     ],
-    providers: [EmpresasService, EmpresasNovoService]
+    providers: [EmpresasService, EmpresasDetalheService]
 })
 export class EmpresasModule { }

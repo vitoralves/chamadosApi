@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 
 @Injectable()
-export class EmpresasNovoService {
+export class EmpresasDetalheService {
 
   constructor(private http: Http) {  }
 

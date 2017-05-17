@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EmpresasComponent } from './empresas.component';
-import { EmpresasNovoComponent } from './empresas-novo/empresas-novo.component';
+import { EmpresasDetalheComponent } from './empresas-detalhe/empresas-detalhe.component';
 
 const routes: Routes = [
     { path: '', component: EmpresasComponent },
-    { path: 'novo', component: EmpresasNovoComponent },
-    { path: ':id', component: EmpresasNovoComponent }
+    { path: 'novo', component: EmpresasDetalheComponent },
+    { path: ':id', component: EmpresasDetalheComponent }
 ];
 
 @NgModule({

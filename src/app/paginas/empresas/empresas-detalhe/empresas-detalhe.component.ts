@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AppComponent } from '../../../app.component';
-import { EmpresasNovoService } from './empresas-novo.service';
+import { EmpresasDetalheService } from './empresas-detalhe.service';
 
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-empresas-novo',
-  templateUrl: './empresas-novo.component.html',
-  styleUrls: ['./empresas-novo.component.css']
+  selector: 'app-empresas-detalhe',
+  templateUrl: './empresas-detalhe.component.html',
+  styleUrls: ['./empresas-detalhe.component.css']
 })
-export class EmpresasNovoComponent implements OnInit {
+export class EmpresasDetalheComponent implements OnInit {
 
   //informacoes de titulo da página
   tituloPagina: string = '';
@@ -37,7 +37,7 @@ export class EmpresasNovoComponent implements OnInit {
   }
 
 
-  constructor(private rootComp: AppComponent, private service: EmpresasNovoService, private rotaAtiva: ActivatedRoute, private rota: Router) {
+  constructor(private rootComp: AppComponent, private service: EmpresasDetalheService, private rotaAtiva: ActivatedRoute, private rota: Router) {
     this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini';
     this.rotaAtiva.params.subscribe(params => {
       if (params.id > 0){

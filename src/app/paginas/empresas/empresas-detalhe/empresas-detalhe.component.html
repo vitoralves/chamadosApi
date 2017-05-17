@@ -39,7 +39,7 @@
                   <div class="form-group"
                   [class.has-error]="!nome.valid && nome.touched"
                   [class.has-feedback]="!nome.valid && nome.touched">
-                  <label for="nome" class="control-label">Nome</label>
+                  <label for="nome" class="control-label">Nome*</label>
                   <input id="nome" type="text" class="form-control" placeholder="Nome"  [ngModel]="empresa.nome" name="nome" required #nome="ngModel"/>
                   <div *ngIf="!nome.valid && nome.touched" class="alert alert-danger" role="alert">
                     <i class="icon fa fa-ban"></i>
@@ -63,7 +63,7 @@
                 <div class="form-group"
                 [class.has-error]="!email.valid && email.touched"
                 [class.has-feedback]="!email.valid && email.touched">
-                <label for="email" class="control-label">Email</label>
+                <label for="email" class="control-label">Email*</label>
                 <input id="email" type="email" class="form-control" placeholder="Email" [ngModel]="empresa.email" name="email" required email #email="ngModel"/>
                 <div *ngIf="!email.valid && email.touched" class="alert alert-danger" role="alert">
                   <i class="icon fa fa-ban"></i>
@@ -78,7 +78,7 @@
               <div class="form-group"
               [class.has-error]="!end.valid && end.touched"
               [class.has-feedback]="!end.valid && end.touched">
-              <label for="end" class="control-label">Endereço</label>
+              <label for="end" class="control-label">Endereço*</label>
               <input id="end" type="text" class="form-control" placeholder="Endereço" required="true" [ngModel]="empresa.endereco" name="endereco" required #end="ngModel"/>
               <div *ngIf="!end.valid && end.touched" class="alert alert-danger" role="alert">
                 <i class="icon fa fa-ban"></i>
