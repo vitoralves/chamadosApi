@@ -21,42 +21,47 @@
         <div class="box box-primary">
           <div class="box-header with-border">
             <div class="row">
-              <div class="col-md-2">
-                <button type="button" class="btn btn-block btn-primary" (click)="novo()">Adicionar</button>
+
+              <div class="box-tools">
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input type="text" name="table_search" [(ngModel)]="pesquisaParam" (keyup.enter)="pesquisar()" class="form-control pull-right" placeholder="Código ou Nome">
+                    <div class="input-group-btn">
+                      <button type="submit" class="btn btn-default" (click)="pesquisar()"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-block btn-primary" (click)="novo()">Adicionar</button>
+                </div>
               </div>
             </div>
           </div>
-
-          <div class="box-body">
-            <input *ngIf="config.filtering" placeholder="Filtro geral"
-            [ngTableFiltering]="config.filtering"
-            class="form-control"
-            (tableChanged)="onChangeTable(config)"/>
-
-            <ng-table [config]="config"
-            (tableChanged)="onChangeTable(config)"
-            (cellClicked)="onCellClick($event)"
-            (deletarClick)="deletar($event)"
-            (deleteClicked)="onDeleteClick($event)"
-            [rows]="rows" [columns]="columns">
-          </ng-table>
-
-          <pagination *ngIf="config.paging"
-          class="pagination-sm"
-          [(ngModel)]="page"
-          [totalItems]="length"
-          [itemsPerPage]="itemsPerPage"
-          [maxSize]="maxSize"
-          [boundaryLinks]="true"
-          [rotate]="false"
-          (pageChanged)="onChangeTable(config, $event)"
-          (numPages)="numPages = $event">
-        </pagination>
-
-        <pre *ngIf="config.paging" class="card card-block card-header">Página: {{page}} / {{numPages}}</pre>
+          <!-- /.box-header -->
+          <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Celular</th>
+                <th>Email</th>
+                <th>Endereço</th>
+                <th></th>
+              </tr>
+              <tr *ngFor="let item of empresas">
+                <td (click)="editar(item.id)">{{item.id}}</td>
+                <td (click)="editar(item.id)">{{item.nome}}</td>
+                <td (click)="editar(item.id)">{{item.telefone}}</td>
+                <td (click)="editar(item.id)">{{item.celular}}</td>
+                <td (click)="editar(item.id)">{{item.email}}</td>
+                <td (click)="editar(item.id)">{{item.endereco}}</td>
+                <td><button class="btn btn-danger" (click)="deletar(item.id)"><i class="fa fa-fw fa-trash"></i></button></td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-</section>
+  </section>
 </div>
