@@ -43,7 +43,7 @@
                   <input id="nome" type="text" class="form-control" placeholder="Nome"  [ngModel]="empresa.nome" name="nome" required #nome="ngModel"/>
                   <div *ngIf="!nome.valid && nome.touched" class="alert alert-danger" role="alert">
                     <i class="icon fa fa-ban"></i>
-                    Esse campo é obrigatório!
+                    Campo obrigatório!
                   </div>
                 </div>
               </div>
@@ -82,7 +82,7 @@
               <input id="end" type="text" class="form-control" placeholder="Endereço" required="true" [ngModel]="empresa.endereco" name="endereco" required #end="ngModel"/>
               <div *ngIf="!end.valid && end.touched" class="alert alert-danger" role="alert">
                 <i class="icon fa fa-ban"></i>
-                Esse campo é obrigatório!
+                Campo obrigatório!
               </div>
             </div>
           </div>

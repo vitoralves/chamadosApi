@@ -1,0 +1,73 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      {{tituloPagina}}
+    </h1>
+    <ol class="breadcrumb">
+      <li><a routerLink="/pages/home"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li>Cadastros</li>
+      <li><a routerLink="/pages/produtos">Produtos</a></li>
+      <li class="active">{{breadCrumb}}</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="alert {{alertCss}} alert-dismissible" *ngIf="mensagem">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h4><i class="icon fa {{icon}}"></i> {{titulo}}</h4>
+              {{texto}}
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <!-- form start -->
+          <form #form="ngForm" role="form" (ngSubmit)="salvar(form)">
+            <div class="box-body">
+              <input id="id" type="text" class="form-control" [ngModel]="produto.id" name="id" [style.display]="'none'" />
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group"
+                          [class.has-error]="!nome.valid && nome.touched"
+                          [class.has-feedback]="!nome.valid && nome.touched">
+                  <label for="nome" class="control-label">Nome*</label>
+                  <input id="nome" type="text" class="form-control" placeholder="Nome"  [ngModel]="produto.nome" name="nome" 
+                            required #nome="ngModel"/>
+                  <div *ngIf="!nome.valid && nome.touched" class="alert alert-danger" role="alert">
+                    <i class="icon fa fa-ban"></i>
+                    Campo obrigatório!
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <input type="checkbox" class="flat-red">
+                    Ativo
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.box -->
+</div>
+</div>
+</section>
+
+</div>

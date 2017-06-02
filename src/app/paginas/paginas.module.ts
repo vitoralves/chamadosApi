@@ -7,6 +7,7 @@ import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 
 import { UtilService } from '../util/util.service';
+import { ProdutosComponent } from './produtos/produtos.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { UtilService } from '../util/util.service';
   declarations: [
     PaginasComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ProdutosComponent
   ]
 })
 
