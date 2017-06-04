@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { EmpresasRoutingModule } from './empresas.routing.module';
 import { EmpresasComponent } from './empresas.component';
-import { Ng2TableModule } from 'ng2-table/ng2-table'; //https://github.com/valor-software/ng2-table
 import { PaginationModule } from 'ngx-bootstrap';
 import { EmpresasDetalheComponent } from './empresas-detalhe/empresas-detalhe.component';
 
@@ -18,7 +17,6 @@ import { TextMaskModule } from 'angular2-text-mask';
     imports: [
         CommonModule,
         EmpresasRoutingModule,
-        Ng2TableModule,
         FormsModule,
         PaginationModule.forRoot(),
         TextMaskModule

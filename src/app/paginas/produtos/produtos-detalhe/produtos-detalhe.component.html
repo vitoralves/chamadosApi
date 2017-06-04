@@ -35,39 +35,33 @@
 
               <div class="row">
                 <div class="col-md-4">
-                  <div class="form-group"
-                          [class.has-error]="!nome.valid && nome.touched"
-                          [class.has-feedback]="!nome.valid && nome.touched">
-                  <label for="nome" class="control-label">Nome*</label>
-                  <input id="nome" type="text" class="form-control" placeholder="Nome"  [ngModel]="produto.nome" name="nome" 
-                            required #nome="ngModel"/>
-                  <div *ngIf="!nome.valid && nome.touched" class="alert alert-danger" role="alert">
-                    <i class="icon fa fa-ban"></i>
-                    Campo obrigatório!
+                  <div class="form-group" [class.has-error]="!nome.valid && nome.touched" [class.has-feedback]="!nome.valid && nome.touched">
+                    <label for="nome" class="control-label">Nome*</label>
+                    <input id="nome" type="text" class="form-control" placeholder="Nome" [ngModel]="produto.nome" name="nome" required #nome="ngModel"
+                    />
+                    <div *ngIf="!nome.valid && nome.touched" class="alert alert-danger" role="alert">
+                      <i class="icon fa fa-ban"></i> Campo obrigatório!
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2" style="height: 74px;">
+                  <div class="form-group checkbox checkbox-primary" style="margin-top: 31px;">
+                    <input id="checkbox" type="checkbox" class="form-control" name="ativo" [ngModel]="produto.ativo">
+                    <label for="checkbox" class="control-label"><b>Ativo</b></label>
                   </div>
                 </div>
               </div>
-
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>
-                    <input type="checkbox" class="flat-red">
-                    Ativo
-                  </label>
-                </div>
-              </div>
             </div>
-          </div>
-          <!-- /.box-body -->
+            <!-- /.box-body -->
 
-          <div class="box-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
-          </div>
-        </form>
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.box -->
       </div>
-      <!-- /.box -->
-</div>
-</div>
-</section>
-
+    </div>
+  </section>
 </div>
