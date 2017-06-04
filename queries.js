@@ -18,6 +18,9 @@ function tokenValido(t){
     return false;
 }
 
+// ***************************
+// USUARIO
+// ****************************
 function registrar(req, res, next){
   var obj = req.params.obj;
   console.log("objto"+obj);
@@ -92,19 +95,20 @@ function getUsuario(req, res, next){
   }
 }
 
-function getCategorias(req, res, next){
+function getUsuarioPorId(req, res, next){
   var token = req.params.token;
+  var id = req.params.id;
+
   if(tokenValido(token)){
-    db.any('select * from categoria')
+    db.one('select id,nome,email,adm,empresa from usuarios where id = $1', id)
     .then(function (data){
       res.status(200)
       .json({
-        data: data
+        data:data
       });
-    })
-    .catch(function (err){
-      return next(err);
-    })
+    }).catch(function (e){
+      return next(e);
+    });
   }else{
     res.status(406)
     .json({
@@ -114,6 +118,9 @@ function getCategorias(req, res, next){
   }
 }
 
+// **************
+// EMPRESA
+// **************
 function updateEmpresa(req, res, next){
   var objeto = JSON.parse(req.params.empresa);
   db.query('update empresas set nome = $1, telefone = $2, email = $3, endereco = $4, celular = $5 where id = $6', [objeto.nome, objeto.telefone, objeto.email, objeto. endereco, objeto.celular, objeto.id])
@@ -193,10 +200,56 @@ function deleteEmpresa(req, res, next){
   })
 }
 
-function getTodasEmpresas(req, res, next){
+// ***********************
+// PRODUTOS
+// **********************
+// **************
+// empresa
+// **************
+function updateProduto(req, res, next){
+  var objeto = JSON.parse(req.params.produto);
+  db.query('update produtos set nome = $1, ativo = $2 where id = $3', [objeto.nome, objeto.ativo, objeto.id])
+  .then(function (f){
+    res.status(200)
+    .json({
+      status: 'success'
+    })
+  }).catch(function (e){
+    return next(e);
+  })
+}
+
+function getProduto(req, res, next){
+  var produto = req.params.produto;
+  db.one('select * from produtos where id = $1', produto)
+  .then(function (data){
+    res.status(200)
+    .json({
+      data: data
+    });
+  })
+  .catch(function (err){
+    return next(err);
+  })
+}
+
+function adicionarProduto(req, res, next){
+  var objeto = JSON.parse(req.params.produto);
+  db.query('insert into produtos(nome,ativo) values($1,$2)', [objeto.nome, objeto.ativo])
+  .then(function (f){
+    res.status(200)
+    .json({
+      status: 'success'
+    })
+  }).catch(function (e){
+    return next(e);
+  })
+}
+
+function getTodosProdutos(req, res, next){
   var token = req.params.token;
   if(tokenValido(token)){
-    db.any('select * from empresas')
+    db.any('select * from produtos')
     .then(function (data){
       res.status(200)
       .json({
@@ -215,39 +268,37 @@ function getTodasEmpresas(req, res, next){
   }
 }
 
-function getUsuarioPorId(req, res, next){
-  var token = req.params.token;
+function deleteProduto(req, res, next){
   var id = req.params.id;
-
-  if(tokenValido(token)){
-    db.one('select id,nome,email,adm,empresa from usuarios where id = $1', id)
-    .then(function (data){
+  db.query('delete from produtos where id = $1', id)
+  .then(function (f){
+    res.status(200)
+    .json({
+      status: 'success'
+    })
+  }).catch(function (e){
       res.status(200)
       .json({
-        data:data
+        status: 'error',
+        message: ''+e
       });
-    }).catch(function (e){
-      return next(e);
-    });
-  }else{
-    res.status(406)
-    .json({
-      status:'Not acceptable',
-      message: 'token inválido!'
-    });
-  }
+  })
 }
+
 
 module.exports = {
   registrar: registrar,
   getUsuario: getUsuario,
-  getCategorias: getCategorias,
+  updatePerfil: updatePerfil,
+  getUsuarioPorId: getUsuarioPorId,
   getEmpresa: getEmpresa,
   getTodasEmpresas: getTodasEmpresas,
   adicionarEmpresa: adicionarEmpresa,
   deleteEmpresa: deleteEmpresa,
   updateEmpresa: updateEmpresa,
-  updatePerfil: updatePerfil,
-  getUsuarioPorId: getUsuarioPorId,
-
+  getProduto: getProduto,
+  getTodosProdutos: getTodosProdutos,
+  adicionarProduto: adicionarProduto,
+  deleteProduto: deleteProduto,
+  updateProduto: updateProduto
 };
