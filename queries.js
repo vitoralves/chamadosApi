@@ -80,11 +80,16 @@ function getUsuario(req, res, next){
     .then(function (data){
       res.status(200)
       .json({
+        status: 'success',
         data: data
       });
     })
     .catch(function (err){
-      return next(err);
+      res.status(500)
+      .json({
+        status: 'error',
+        message: ''+err
+      });
     });
   }else{
     res.status(406)
