@@ -43,9 +43,11 @@ export class LoginComponent implements OnInit {
         this.mensagem = 'Usuário não encontrado!';
       }
     }).catch((e) => {
-      console.log("erro "+e);
+      console.log(e);
       this.alerta = true;
-      this.mensagem = 'Erro ao estabelecer comunicação com servidor.';
+      let objeto = JSON.parse(e._body);
+      console.log(objeto);
+      this.mensagem = objeto.message;
     })
   }
 }
