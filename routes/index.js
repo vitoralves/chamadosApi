@@ -19,10 +19,12 @@ router.get('/api/empresas/all/:token', db.getTodasEmpresas);
 router.post('/api/empresas/novo/:empresa', db.adicionarEmpresa);
 router.put('/api/empresa/update/:empresa', db.updateEmpresa);
 router.delete('/api/empresa/delete/:id', db.deleteEmpresa);
+router.get('/api/empresas/produtos/:id', db.getEmpresasProduto);
+router.post('/api/empresas/produtos/novo/:empresaProduto', db.addEmpresasProdutos);
 
 // produtos
 router.get('/api/produto/:produto', db.getProduto);
-router.get('/api/produtos/all/:token', db.getTodosProdutos);
+router.get('/api/produtos/all', db.getTodosProdutos);
 router.post('/api/produtos/novo/:produto', db.adicionarProduto);
 router.put('/api/produto/update/:produto', db.updateProduto);
 router.delete('/api/produto/delete/:id', db.deleteProduto);

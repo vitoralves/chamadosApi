@@ -197,7 +197,7 @@ function deleteEmpresa(req, res, next){
       status: 'success'
     })
   }).catch(function (e){
-      res.status(200)
+      res.status(500)
       .json({
         status: 'error',
         message: ''+e
@@ -205,12 +205,43 @@ function deleteEmpresa(req, res, next){
   })
 }
 
+function getEmpresasProduto(req, res, next){
+  var id = req.params.id;
+  db.query('select ep.id, p.nome, ep.ativo from empresas_produtos ep join produtos p on p.id = ep.produto where empresa = $1', id)
+  .then(function (data){
+    res.status(200)
+    .json({
+      data: data
+    })
+  }).catch(function (e){
+    res.status(500)
+    .json({
+      status: 'error',
+      message: ''+e
+    })
+  })
+}
+
+function addEmpresasProdutos(req, res, next){
+  var objeto = JSON.parse(req.params.empresaProduto);
+  db.query('insert into empresas_produtos(produto, empresa, ativo) values($1,$2,$3)', [objeto.produto, objeto.empresa, objeto.ativo])
+  .then(function (f){
+    res.status(200)
+    .json({
+      status: 'success'
+    })
+  }).catch(function (e){
+    res.status(500)
+    .json({
+      status: 'error',
+      message: ''+e
+    })
+  })
+}
+
 // ***********************
 // PRODUTOS
 // **********************
-// **************
-// empresa
-// **************
 function updateProduto(req, res, next){
   var objeto = JSON.parse(req.params.produto);
   db.query('update produtos set nome = $1, ativo = $2 where id = $3', [objeto.nome, objeto.ativo, objeto.id])
@@ -252,8 +283,6 @@ function adicionarProduto(req, res, next){
 }
 
 function getTodosProdutos(req, res, next){
-  var token = req.params.token;
-  if(tokenValido(token)){
     db.any('select * from produtos')
     .then(function (data){
       res.status(200)
@@ -264,13 +293,6 @@ function getTodosProdutos(req, res, next){
     .catch(function (err){
       return next(err);
     })
-  }else{
-    res.status(406)
-    .json({
-      status:'Not acceptable',
-      message: 'token inválido!'
-    });
-  }
 }
 
 function deleteProduto(req, res, next){
@@ -292,15 +314,20 @@ function deleteProduto(req, res, next){
 
 
 module.exports = {
+  // usuario
   registrar: registrar,
   getUsuario: getUsuario,
   updatePerfil: updatePerfil,
   getUsuarioPorId: getUsuarioPorId,
+  // empresas
   getEmpresa: getEmpresa,
   getTodasEmpresas: getTodasEmpresas,
   adicionarEmpresa: adicionarEmpresa,
   deleteEmpresa: deleteEmpresa,
   updateEmpresa: updateEmpresa,
+  getEmpresasProduto: getEmpresasProduto,
+  addEmpresasProdutos: addEmpresasProdutos,
+  // produtos
   getProduto: getProduto,
   getTodosProdutos: getTodosProdutos,
   adicionarProduto: adicionarProduto,
