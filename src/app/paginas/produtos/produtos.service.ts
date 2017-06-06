@@ -11,7 +11,7 @@ export class ProdutosService {
   }
 
   retornaTodosProdutos(){
-    return this.http.get('http://localhost:3000/api/produtos/all/'+this.util.retornaToken()).map(res => res.json()).toPromise();
+    return this.http.get('http://localhost:3000/api/produtos/all').map(res => res.json()).toPromise();
   }
 
   apagarItem(id: number){

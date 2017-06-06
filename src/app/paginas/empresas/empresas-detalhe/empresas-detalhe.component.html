@@ -36,69 +36,69 @@
 
               <div class="row">
                 <div class="col-md-4">
-                  <div class="form-group"
-                  [class.has-error]="!nome.valid && nome.touched"
-                  [class.has-feedback]="!nome.valid && nome.touched">
-                  <label for="nome" class="control-label">Nome*</label>
-                  <input id="nome" type="text" class="form-control" placeholder="Nome"  [ngModel]="empresa.nome" name="nome" required #nome="ngModel"/>
-                  <div *ngIf="!nome.valid && nome.touched" class="alert alert-danger" role="alert">
-                    <i class="icon fa fa-ban"></i>
-                    Campo obrigatório!
+                  <div class="form-group" [class.has-error]="!nome.valid && nome.touched" [class.has-feedback]="!nome.valid && nome.touched">
+                    <label for="nome" class="control-label">Nome*</label>
+                    <input id="nome" type="text" class="form-control" placeholder="Nome" [ngModel]="empresa.nome" name="nome" required #nome="ngModel"
+                    />
+                    <div *ngIf="!nome.valid && nome.touched" class="alert alert-danger" role="alert">
+                      <i class="icon fa fa-ban"></i> Campo obrigatório!
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="celular" class="control-label">Celular</label>
+                    <input id="celular" type="text" class="form-control" placeholder="Celular" [ngModel]="empresa.celular" name="celular" #cel="ngModel"
+                      [textMask]="{mask: celMask}" />
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="telefone" class="control-label">Telefone</label>
+                    <input id="telefone" type="text" class="form-control" placeholder="Telefone" [ngModel]="empresa.telefone" name="telefone"
+                      #tel="ngModel" [textMask]="{mask: telMask}" />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group" [class.has-error]="!email.valid && email.touched" [class.has-feedback]="!email.valid && email.touched">
+                    <label for="email" class="control-label">Email*</label>
+                    <input id="email" type="email" class="form-control" placeholder="Email" [ngModel]="empresa.email" name="email" required email
+                      #email="ngModel" />
+                    <div *ngIf="!email.valid && email.touched" class="alert alert-danger" role="alert">
+                      <i class="icon fa fa-ban"></i> Insira um email válido!
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label for="celular" class="control-label">Celular</label>
-                  <input id="celular" type="text" class="form-control" placeholder="Celular" [ngModel]="empresa.celular" name="celular" #cel="ngModel" [textMask]="{mask: celMask}"/>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label for="telefone" class="control-label">Telefone</label>
-                  <input id="telefone" type="text" class="form-control" placeholder="Telefone" [ngModel]="empresa.telefone" name="telefone" #tel="ngModel" [textMask]="{mask: telMask}"/>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group"
-                [class.has-error]="!email.valid && email.touched"
-                [class.has-feedback]="!email.valid && email.touched">
-                <label for="email" class="control-label">Email*</label>
-                <input id="email" type="email" class="form-control" placeholder="Email" [ngModel]="empresa.email" name="email" required email #email="ngModel"/>
-                <div *ngIf="!email.valid && email.touched" class="alert alert-danger" role="alert">
-                  <i class="icon fa fa-ban"></i>
-                  Insira um email válido!
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group"
-              [class.has-error]="!end.valid && end.touched"
-              [class.has-feedback]="!end.valid && end.touched">
-              <label for="end" class="control-label">Endereço*</label>
-              <input id="end" type="text" class="form-control" placeholder="Endereço" required="true" [ngModel]="empresa.endereco" name="endereco" required #end="ngModel"/>
-              <div *ngIf="!end.valid && end.touched" class="alert alert-danger" role="alert">
-                <i class="icon fa fa-ban"></i>
-                Campo obrigatório!
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group" [class.has-error]="!end.valid && end.touched" [class.has-feedback]="!end.valid && end.touched">
+                    <label for="end" class="control-label">Endereço*</label>
+                    <input id="end" type="text" class="form-control" placeholder="Endereço" required="true" [ngModel]="empresa.endereco" name="endereco"
+                      required #end="ngModel" />
+                    <div *ngIf="!end.valid && end.touched" class="alert alert-danger" role="alert">
+                      <i class="icon fa fa-ban"></i> Campo obrigatório!
+                    </div>
+                  </div>
+                </div>
               </div>
+
+              <!--vinculo de produtos com essa empresa-->
+              <app-empresa-produtos></app-empresa-produtos>
+
             </div>
-          </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
+            </div>
+            <!--end form -->
+          </form>
         </div>
-
+        <!-- /.box -->
       </div>
-      <!-- /.box-body -->
-
-      <div class="box-footer">
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
-      </div>
-    </form>
-  </div>
-  <!-- /.box -->
-</div>
-</div>
-</section>
+    </div>
+  </section>
 
 </div>
