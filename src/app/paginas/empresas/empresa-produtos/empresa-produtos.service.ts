@@ -22,4 +22,14 @@ export class EmpresaProdutosService {
     return this.http.post('http://localhost:3000/api/empresas/produtos/novo/'+jsonData, {headers: headers}).toPromise();
   }
 
+  updateProdutoEmpresa(empresaProduto:any){
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    var jsonData = JSON.stringify(empresaProduto);
+    return this.http.put('http://localhost:3000/api/empresas/produtos/update/'+jsonData, {headers: headers}).toPromise();
+  }
+
+  deleteEmpresaProduto(id: number){
+    return this.http.delete('http://localhost:3000/api/empresas/produtos/delete/'+id).map(res => res.json()).toPromise();
+  }
 }
