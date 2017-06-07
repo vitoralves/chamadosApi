@@ -239,6 +239,40 @@ function addEmpresasProdutos(req, res, next){
   })
 }
 
+function updateEmpresasProdutos(req, res, next){
+  var objeto = JSON.parse(req.params.empresaProduto);
+  db.query('update empresas_produtos set produto = $1, set empresa = $2, set ativo = $3 where id = $4) values($1,$2,$3)', [objeto.produto, objeto.empresa, objeto.ativo, objeto.id])
+  .then(function (f){
+    res.status(200)
+    .json({
+      status: 'success'
+    })
+  }).catch(function (e){
+    res.status(500)
+    .json({
+      status: 'error',
+      message: ''+e
+    })
+  })
+}
+
+function deleteEmpresasProdutos(req, res, next){
+  var id = req.params.id;
+  db.query('delete from empresas_produtos where id = $1', id)
+  .then(function (f){
+    res.status(200)
+    .json({
+      status: 'success'
+    })
+  }).catch(function (e){
+      res.status(500)
+      .json({
+        status: 'error',
+        message: ''+e
+      });
+  })
+}
+
 // ***********************
 // PRODUTOS
 // **********************
@@ -327,6 +361,8 @@ module.exports = {
   updateEmpresa: updateEmpresa,
   getEmpresasProduto: getEmpresasProduto,
   addEmpresasProdutos: addEmpresasProdutos,
+  updateEmpresasProdutos: updateEmpresasProdutos,
+  deleteEmpresasProdutos: deleteEmpresasProdutos,
   // produtos
   getProduto: getProduto,
   getTodosProdutos: getTodosProdutos,

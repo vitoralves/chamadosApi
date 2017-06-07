@@ -21,6 +21,8 @@ router.put('/api/empresa/update/:empresa', db.updateEmpresa);
 router.delete('/api/empresa/delete/:id', db.deleteEmpresa);
 router.get('/api/empresas/produtos/:id', db.getEmpresasProduto);
 router.post('/api/empresas/produtos/novo/:empresaProduto', db.addEmpresasProdutos);
+router.put('/api/empresas/produtos/update/:empresaProduto', db.updateEmpresasProdutos);
+router.delete('/api/empresas/produtos/delete/:id', db.deleteEmpresasProdutos);
 
 // produtos
 router.get('/api/produto/:produto', db.getProduto);
