@@ -5,6 +5,10 @@ import { UtilService } from '../../util/util.service';
 import { PerfilService } from './perfil.service';
 import { Router } from '@angular/router';
 
+import '../../../tema/js/myjs.js';
+
+declare var execute;
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
@@ -32,6 +36,10 @@ export class PerfilComponent implements OnInit {
     })
   }
 
+  ngAfterViewChecked(){
+    execute.funcao();
+  }
+
   salvar(){
     this.service.salvar(this.usuario).then(data => {
       if (data){
@@ -39,13 +47,13 @@ export class PerfilComponent implements OnInit {
         this.titulo = 'Sucesso';
         this.texto = 'Alterações salvas com sucesso!';
         this.alertCss = 'alert-success';
-        this.icon = 'fa-success';
+        this.icon = 'fa-check';
       }else{
         this.mensagem = true;
         this.titulo = 'Alerta';
         this.texto = 'Falha ao salvar registro!';
         this.alertCss = 'alert-warning';
-        this.icon = 'fa-warning';
+        this.icon = 'fa-ban';
       }
     });
   }

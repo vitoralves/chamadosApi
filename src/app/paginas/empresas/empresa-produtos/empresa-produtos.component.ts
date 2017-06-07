@@ -3,7 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { EmpresaProdutosService } from './empresa-produtos.service';
 import { Component, OnInit } from '@angular/core';
 
+import '../../../../tema/js/myjs.js';
+
 declare var swal: any;
+declare var execute: any;
 
 @Component({
   selector: 'app-empresa-produtos',
@@ -43,6 +46,7 @@ export class EmpresaProdutosComponent implements OnInit {
   private getListProdutosPorEmpresa() {
     this.service.getEmpresasProdutosPorEmpresa(this.empresa).then(data => {
       this.listProdutosPorEmpresa = data.data;
+      execute.funcao();
     });
   }
 
@@ -80,8 +84,8 @@ export class EmpresaProdutosComponent implements OnInit {
   cancelarSalvar() {
     this.alterar = false;
   }
-  
-  editarLinha(entidade: any){
+
+  editarLinha(entidade: any) {
     this.empresaProduto.id = entidade.id;
     this.empresaProduto.produto = entidade.produto;
     this.empresaProduto.empresa = entidade.empresa;
@@ -90,7 +94,7 @@ export class EmpresaProdutosComponent implements OnInit {
     this.alterar = true;
   }
 
-  salvarEdicao(){
+  salvarEdicao() {
     this.service.updateProdutoEmpresa(this.empresaProduto).then(data => {
       this.mensagem = true;
       this.texto = 'Produto alterado com sucesso!';
@@ -109,7 +113,7 @@ export class EmpresaProdutosComponent implements OnInit {
     })
   }
 
-  public mostraAlert(): Promise<any>{
+  public mostraAlert(): Promise<any> {
     return swal({
       title: 'Apagar produto?',
       text: "Essa ação não poderá ser desfeita!",
@@ -119,14 +123,14 @@ export class EmpresaProdutosComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sim, apagar!',
       cancelButtonText: 'Cancelar'
-    }).then(function() {
+    }).then(function () {
       return true;
     }, function (dismiss) {
       return false;
     })
   }
 
-  public deletar(id: number){
+  public deletar(id: number) {
     this.mostraAlert().then(retorno => {
       if (retorno) {
         this.apagarItem(id);
@@ -134,20 +138,20 @@ export class EmpresaProdutosComponent implements OnInit {
     })
   }
 
-  public apagarItem(id: number){
+  public apagarItem(id: number) {
     this.service.deleteEmpresaProduto(id).then(result => {
-      if (result.status === 'success'){
+      if (result.status === 'success') {
         swal(
           'Apagado!',
-          'O item de código '+id+' foi apagado!',
+          'O item de código ' + id + ' foi apagado!',
           'success'
         )
         //se necessitar de melhor processamento remover somente do array ao invéz de solicitar na API
         this.getListProdutosPorEmpresa();
-      }else{
+      } else {
         swal(
           'Erro!',
-          'Ocorreu um erro ao apagar o registro: <b>'+result.message+'</b>',
+          'Ocorreu um erro ao apagar o registro: <b>' + result.message + '</b>',
           'error'
         )
       }
