@@ -5,7 +5,7 @@ var options = {
 };
 
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://postgres:info2013@localhost:5432/chamados';
+var connectionString = 'postgres://postgres:a@localhost:5432/chamados';
 var db = pgp(connectionString);
 
 function tokenValido(t){
@@ -52,14 +52,18 @@ function updatePerfil(req, res, next){
   var u = JSON.parse(usuario);
 
   if(tokenValido(token)){
-    db.query('update usuarios set nome = $1, email = $2 where id = $3', [u.nome, u.email, u.id])
+    db.query('update usuarios set nome = $1, email = $2, imagem = $4 where id = $3', [u.nome, u.email, u.id, u.imagem])
     .then(function (){
       res.status(200)
       .json({
         message: 'sucesso'
       });
     }). catch(function (e){
-      return next(e);
+      res.status(500)
+      .json({
+        status: 'error',
+        message: ''+e
+      })
     });
   }else{
     res.status(406)
@@ -105,7 +109,7 @@ function getUsuarioPorId(req, res, next){
   var id = req.params.id;
 
   if(tokenValido(token)){
-    db.one('select id,nome,email,adm,empresa from usuarios where id = $1', id)
+    db.one('select * from usuarios where id = $1', id)
     .then(function (data){
       res.status(200)
       .json({
