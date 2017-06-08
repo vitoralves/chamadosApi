@@ -37,7 +37,7 @@ export class ProdutosDetalheComponent implements OnInit {
 
 
   constructor(private rootComp: AppComponent, private service: ProdutosDetalheService, private rotaAtiva: ActivatedRoute, private rota: Router) {
-    this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini';
+    this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini sidebar-collapse';
     this.rotaAtiva.params.subscribe(params => {
       if (params.id > 0) {
         this.tituloPagina = 'Editar Produto ' + params.id;

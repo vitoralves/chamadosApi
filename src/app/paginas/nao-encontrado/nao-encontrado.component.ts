@@ -10,7 +10,7 @@ import { AppComponent } from '../../app.component';
 export class NaoEncontradoComponent implements OnInit {
 
   constructor(private rootComp: AppComponent) { 
-    this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini';
+    this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini sidebar-collapse';
   }
 
   ngOnInit() {

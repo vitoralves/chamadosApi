@@ -20,7 +20,7 @@ export class ProdutosComponent implements OnInit {
   produtosPesquisa: any;
 
   constructor(private rootComp: AppComponent, private service: ProdutosService, private rota: Router) {
-    this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini';
+    this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini sidebar-collapse';
   }
 
   ngOnInit() {

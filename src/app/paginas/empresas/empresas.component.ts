@@ -19,7 +19,7 @@ export class EmpresasComponent implements OnInit {
   empresasPesquisa: any;
 
   constructor(private rootComp: AppComponent, private service: EmpresasService, private rota: Router) {
-    this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini';
+    this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini sidebar-collapse';
   }
 
   ngOnInit() {
