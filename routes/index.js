@@ -13,6 +13,7 @@ router.get('/api/logar/:email/:senha/:token', db.getUsuario);
 router.get('/api/usuario/getUsuarioPorId/:id/:token', db.getUsuarioPorId);
 router.get('/api/usuario/getUsuarioPorId/:id/:token', db.getUsuarioPorId);
 router.put('/api/perfil/salvar/:usu/:token', db.updatePerfil);
+router.put('/api/perfil/salvar/imagem/:img', db.updatePerfilFoto);
 // empresa
 router.get('/api/empresa/:empresa', db.getEmpresa);
 router.get('/api/empresas/all/:token', db.getTodasEmpresas);

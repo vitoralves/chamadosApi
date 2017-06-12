@@ -74,12 +74,33 @@ function updatePerfil(req, res, next){
   }
 }
 
+function updatePerfilFoto(req, res, next){
+  var img = JSON.parse(req.params.img);
+
+  
+  db.query('update usuarios set imagem = $1', img)
+  .then(function (){
+    res.status(200)
+    .json({
+      message: 'sucesso'
+    });
+  }). catch(function (e){
+    res.status(500)
+    .json({
+      status: 'error',
+      message: ''+e
+    })
+  });
+
+}
+
 function getUsuario(req, res, next){
   var e = req.params.email;
   var s = req.params.senha;
   var token = req.params.token;
 
   if (tokenValido(token)){
+    console.log('valido');
     db.any('select * from usuarios where email = $1 and senha = $2', [e, s])
     .then(function (data){
       res.status(200)
@@ -357,6 +378,7 @@ module.exports = {
   getUsuario: getUsuario,
   updatePerfil: updatePerfil,
   getUsuarioPorId: getUsuarioPorId,
+  updatePerfilFoto: updatePerfilFoto,
   // empresas
   getEmpresa: getEmpresa,
   getTodasEmpresas: getTodasEmpresas,
