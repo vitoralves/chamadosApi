@@ -1,0 +1,137 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      {{tituloPagina}}
+    </h1>
+    <ol class="breadcrumb">
+      <li><a routerLink="/pages/home"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li>Cadastros</li>
+      <li><a routerLink="/pages/usuarios">Usuarios</a></li>
+      <li class="active">{{breadCrumb}}</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="alert {{alertCss}} alert-dismissible" *ngIf="mensagem">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h4><i class="icon fa {{icon}}"></i> {{titulo}}</h4>
+              {{texto}}
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <!-- form start -->
+          <form #form="ngForm" role="form" (ngSubmit)="salvar(form)">
+            <div class="box-body">
+
+              <input id="id" type="text" class="form-control" [ngModel]="usuario.id" name="id" [style.display]="'none'" />
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group" [class.has-error]="!nome.valid && nome.touched" [class.has-feedback]="!nome.valid && nome.touched">
+                    <label for="nome" class="control-label">Nome*</label>
+                    <input id="nome" type="text" class="form-control" placeholder="Nome" [ngModel]="usuario.nome" name="nome" required #nome="ngModel"
+                    />
+                    <div *ngIf="!nome.valid && nome.touched" class="alert alert-danger" role="alert">
+                      <i class="icon fa fa-ban"></i> Campo obrigatório!
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group" [class.has-error]="!email.valid && email.touched" [class.has-feedback]="!email.valid && email.touched">
+                    <label for="email" class="control-label">Email*</label>
+                    <input id="email" type="email" class="form-control" placeholder="Email" [ngModel]="usuario.email" name="email" required email
+                      #email="ngModel" />
+                    <div *ngIf="!email.valid && email.touched" class="alert alert-danger" role="alert">
+                      <i class="icon fa fa-ban"></i> Insira um email válido!
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group" [class.has-error]="!empresa.valid && empresa.touched" [class.has-feedback]="!empresa.valid && empresa.touched">
+                    <label for="empresa" class="control-label">Empresa*</label>
+                    <select id="empresa" name="empresa" [(ngModel)]="usuario.empresa" class="form-control select2" style="width: 100%;" required
+                      empresa #empresa="ngModel">
+                      <option *ngFor="let e of empresas"  [ngValue]="e.id" ngDefaultControl>{{e.nome}}</option>
+                    </select>
+                    <div *ngIf="!empresa.valid && empresa.touched" class="alert alert-danger" role="alert">
+                      <i class="icon fa fa-ban"></i> Selecione uma empresa!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-2" style="height: 74px;">
+                  <div class="form-group checkbox checkbox-primary" style="margin-top: 31px;">
+                    <input id="checkbox" type="checkbox" class="form-control" name="adm" [ngModel]="usuario.adm">
+                    <label for="checkbox" class="control-label"><b>Administrador</b></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
+              <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal">Alterar Senha</button>
+            </div>
+            <!--end form -->
+          </form>
+
+          <div id="modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Alterar Senha</h4>
+                </div>
+                <div class="modal-body">
+                  <form #formSenha="ngForm" role="form">
+                    <div class="box-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="form-group" [class.has-error]="!nova.valid && nova.touched" [class.has-feedback]="!nova.valid && nova.touched">
+                            <label for="nova" class="control-label">Nova Senha*</label>
+                            <input id="nova" type="password" class="form-control" placeholder="Nova Senha" [(ngModel)]="novaSenha" name="novaSenha" required #nova="ngModel" />
+                            <div *ngIf="!nova.valid && nova.touched" class="alert alert-danger" role="alert">
+                              <i class="icon fa fa-ban"></i> Campo obrigatório!
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="form-group" [class.has-error]="!confirma.valid && confirma.touched" [class.has-feedback]="!confirma.valid && confirma.touched">
+                            <label for="confirma" class="control-label">Confirmar nova senha*</label>
+                            <input id="confirma" type="password" class="form-control" placeholder="Confirmar nova senha" [(ngModel)]="confirmaSenha" name="confirmaSenha" required #confirma="ngModel"
+                            />
+                            <div *ngIf="!confirma.valid && confirma.touched" class="alert alert-danger" role="alert">
+                              <i class="icon fa fa-ban"></i> Campo obrigatório!
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!formSenha.valid" (click)="alterarSenha()">Alterar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.box -->
+      </div>
+    </div>
+  </section>
+</div>

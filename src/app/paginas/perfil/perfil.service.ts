@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
+var LZString = require('../../util/lz-string');
 
 import { Http } from '@angular/http';
 import { UtilService } from '../../util/util.service';
@@ -17,8 +18,6 @@ export class PerfilService {
 
       usuario.imagem = this.base64ToArrayBuffer(usuario.imagem);
 
-      console.log(usuario.imagem);
-
       this.http.put('http://localhost:3000/api/perfil/salvar/' + JSON.stringify(usuario) + '/' + this.util.retornaToken(), { headers: headers }).subscribe(status => {
         if (status.status == 200) {
           resolve(true);
@@ -29,26 +28,42 @@ export class PerfilService {
   }
 
   salvarImagem(dado) {
-   return new Promise(resolve => {
-     var headers = new Headers();
-     headers.append('Content-Type', 'application/json');
+    console.log(dado.length);
+    var compressed = LZString.compressToEncodedURIComponent(dado);
+    console.log(compressed.length);
+   /* return new Promise(resolve => {
+      var headers = new Headers();
+      headers.append('Content-Type', undefined);
 
-     this.http.put('http://localhost:3000/api/perfil/salvar/imagem/' + dado, { headers: headers }).subscribe(status => {
-       if (status.status == 200) {
-         resolve(true);
-       } else
-         resolve(false);
-     });
-   });
+      var form = new FormData();
+      form.append("img", dado);
+
+      this.http.put('http://localhost:3000/api/perfil/imagem/'+ form, { headers: headers }).subscribe(status => {
+        if (status.status == 200) {
+          resolve(true);
+        } else
+          resolve(false);
+      });
+    });*/
   }
 
   base64ToArrayBuffer(base64) {
-    var binary_string = window.atob(btoa(base64));
-    var len = binary_string.length;
+    var len = base64.length;
     var bytes = new Uint8Array(len);
     for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
+      bytes[i] = base64.charCodeAt(i);
     }
-    return bytes.buffer;
+    return bytes;
   }
+
+  arrayToString(array){
+    console.log(array);
+    var str = "";
+    for (var i=0; i < array.length; i++){
+      str += String.fromCharCode(array[i]);
+    }
+    console.log('aqui');
+    console.log(str);
+  }
+  
 }

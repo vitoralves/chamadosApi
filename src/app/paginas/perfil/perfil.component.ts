@@ -71,7 +71,7 @@ export class PerfilComponent implements OnInit {
     myReader.onloadend = (e) => {
       base64Image = myReader.result;
       this.fotoBase64 = base64Image;
-      this.usuario.imagem = this.fotoBase64;
+      this.service.salvarImagem(base64Image);
     }
     myReader.readAsDataURL(this.foto[0]);
   }

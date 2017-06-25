@@ -13,7 +13,8 @@ const appRoutes: Routes = [
       { path: 'home', loadChildren: './home/home.module#HomeModule'},
       { path: 'perfil', loadChildren: './perfil/perfil.module#PerfilModule'},
       { path: 'empresas', loadChildren: './empresas/empresas.module#EmpresasModule'},
-      { path: 'produtos', loadChildren: './produtos/produtos.module#ProdutosModule'}
+      { path: 'produtos', loadChildren: './produtos/produtos.module#ProdutosModule'},
+      { path: 'usuarios', loadChildren: './usuarios/usuarios.module#UsuariosModule'}
     ]
   }
 ];

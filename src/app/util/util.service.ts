@@ -29,7 +29,7 @@ export class UtilService {
 
 
   retornaUsuario(){
-    return this.http.get('http://localhost:3000/api/usuario/getUsuarioPorId/'+window.sessionStorage.getItem('idusuario')+'/'+this.retornaToken()).map(res => res.json()).toPromise();
+    return this.http.get('http://localhost:3000/api/usuario/getUsuarioPorId/'+window.sessionStorage.getItem('idusuario')).map(res => res.json()).toPromise();
   }
 
 }
