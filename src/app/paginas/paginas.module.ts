@@ -7,6 +7,7 @@ import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 
 import { UtilService } from '../util/util.service';
+import { MenuLateralComponent } from "app/menu-lateral/menu-lateral.component";
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { UtilService } from '../util/util.service';
   declarations: [
     PaginasComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    MenuLateralComponent
   ]
 })
 

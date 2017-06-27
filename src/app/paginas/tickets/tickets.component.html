@@ -1,0 +1,52 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Tickets
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="/pages/home"><i class="fa fa-home"></i> Home</a></li>
+      <li class="active">Tickets</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="alert {{alertCss}} alert-dismissible" *ngIf="mensagem">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h4><i class="icon fa {{icon}}"></i> {{titulo}}</h4>
+              {{texto}}
+            </div>
+            <div class="alert alert-success alert-dismissible" *ngIf="mensagemSucesso">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h4><i class="icon fa fa-warning"></i> Sucesso</h4>
+              Registro salvo com sucesso!
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <!-- form start -->
+          <form role="form" (ngSubmit)="salvar()">
+            <div class="box-body">
+              <div class="row">
+
+              </div>
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.box -->
+      </div>
+    </div>
+  </section>
+</div>

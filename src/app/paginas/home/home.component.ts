@@ -10,6 +10,8 @@ import { HeaderComponent} from '../../header/header.component';
 })
 export class HomeComponent implements OnInit {
 
+  tickets: any;
+  
   constructor(private rootComp: AppComponent) {
     this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini sidebar-collapse';
   }
