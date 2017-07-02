@@ -347,6 +347,90 @@ function deleteProduto(req, res, next) {
     })
 }
 
+function getProdutosComponente(req, res, next) {
+  var id = req.params.id;
+  db.query('select ep.id, c.nome from produtos_componentes ep join componentes c on c.id = ep.componente where produto = $1', id)
+    .then(function (data) {
+      res.status(200)
+        .json({
+          data: data
+        })
+    }).catch(function (e) {
+      res.status(500)
+        .json({
+          status: 'error',
+          message: '' + e
+        })
+    })
+}
+
+function getProdutosComponente(req, res, next) {
+  var id = req.params.id;
+  db.query('select ep.id, c.nome from produtos_componentes ep join componentes c on c.id = ep.componente where produto = $1', id)
+    .then(function (data) {
+      res.status(200)
+        .json({
+          data: data
+        })
+    }).catch(function (e) {
+      res.status(500)
+        .json({
+          status: 'error',
+          message: '' + e
+        })
+    })
+}
+
+function addProdutosComponentes(req, res, next) {
+  var objeto = JSON.parse(req.params.produtoComponente);
+  db.query('insert into produtos_componentes(produto, componente) values($1,$2)', [objeto.produto, objeto.componente])
+    .then(function (f) {
+      res.status(200)
+        .json({
+          status: 'success'
+        })
+    }).catch(function (e) {
+      res.status(500)
+        .json({
+          status: 'error',
+          message: '' + e
+        })
+    })
+}
+
+function updateProdutosComponentes(req, res, next) {
+  var objeto = JSON.parse(req.params.produtoComponente);
+  db.query('update produtos_componentes set produto = $1, set componente = $2 where id = $3) values($1,$2)', [objeto.produto, objeto.componente, objeto.id])
+    .then(function (f) {
+      res.status(200)
+        .json({
+          status: 'success'
+        })
+    }).catch(function (e) {
+      res.status(500)
+        .json({
+          status: 'error',
+          message: '' + e
+        })
+    })
+}
+
+function deleteProdutosComponentes(req, res, next) {
+  var id = req.params.id;
+  db.query('delete from produtos_componentes where id = $1', id)
+    .then(function (f) {
+      res.status(200)
+        .json({
+          status: 'success'
+        })
+    }).catch(function (e) {
+      res.status(500)
+        .json({
+          status: 'error',
+          message: '' + e
+        });
+    })
+}
 
 // **************
 // USUARIO
@@ -453,6 +537,94 @@ function updateSenha(req, res, next) {
     })
 }
 
+
+// ***********************
+// PRODUTOS
+// **********************
+function updateComponente(req, res, next) {
+  var objeto = JSON.parse(req.params.componente);
+  db.query('update componentes set nome = $1, ativo = $2 where id = $3', [objeto.nome, objeto.ativo, objeto.id])
+    .then(function (f) {
+      res.status(200)
+        .json({
+          status: 'success'
+        })
+    }).catch(function (e) {
+      return next(e);
+    })
+}
+
+function getComponente(req, res, next) {
+  var componente = req.params.componente;
+  db.one('select * from componentes where id = $1', componente)
+    .then(function (data) {
+      res.status(200)
+        .json({
+          data: data
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    })
+}
+
+function adicionarComponente(req, res, next) {
+  var objeto = JSON.parse(req.params.componente);
+  db.query('insert into componentes(nome) values($1)', [objeto.nome])
+    .then(function (f) {
+      res.status(200)
+        .json({
+          status: 'success'
+        })
+    }).catch(function (e) {
+      return next(e);
+    })
+}
+
+function getTodosComponentes(req, res, next) {
+  db.any('select * from componentes')
+    .then(function (data) {
+      res.status(200)
+        .json({
+          data: data
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    })
+}
+
+function getTodosComponentesPorProduto(req, res, next) {
+  var id = req.params.id;
+  db.any('select c.* from componentes c where c.id not in (select pc.componente from produtos_componentes pc where produto = $1)', id)
+    .then(function (data) {
+      res.status(200)
+        .json({
+          data: data
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    })
+}
+
+function deleteComponente(req, res, next) {
+  var id = req.params.id;
+  db.query('delete from componentes where id = $1', id)
+    .then(function (f) {
+      res.status(200)
+        .json({
+          status: 'success'
+        })
+    }).catch(function (e) {
+      res.status(200)
+        .json({
+          status: 'error',
+          message: '' + e
+        });
+    })
+}
+
 module.exports = {
   // usuario
   registrar: registrar,
@@ -476,10 +648,21 @@ module.exports = {
   adicionarProduto: adicionarProduto,
   deleteProduto: deleteProduto,
   updateProduto: updateProduto,
+  getProdutosComponente: getProdutosComponente,
+  addProdutosComponentes: addProdutosComponentes,
+  updateProdutosComponentes: updateProdutosComponentes,
+  deleteProdutosComponentes: deleteProdutosComponentes,
   // usuarios
   getTodosUsuarios: getTodosUsuarios,
   adicionarUsuario: adicionarUsuario,
   deleteUsuario: deleteUsuario,
   updateUsuario: updateUsuario,
-  updateSenha: updateSenha
+  updateSenha: updateSenha,
+  // componentes
+  getComponente: getComponente,
+  getTodosComponentes: getTodosComponentes,
+  getTodosComponentesPorProduto: getTodosComponentesPorProduto,
+  adicionarComponente: adicionarComponente,
+  deleteComponente: deleteComponente,
+  updateComponente: updateComponente,
 };
