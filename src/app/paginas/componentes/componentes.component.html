@@ -44,16 +44,11 @@
               <tr>
                 <th>ID</th>
                 <th>Nome</th>
-                <th>Ativo</th>
                 <th></th>
               </tr>
-              <tr *ngFor="let item of produtos">
+              <tr *ngFor="let item of componentes">
                 <td (click)="editar(item.id)">{{item.id}}</td>
                 <td (click)="editar(item.id)">{{item.nome}}</td>
-                <td (click)="editar(item.id)">
-                  <i class="fa fa-fw fa-check" *ngIf="item.ativo"></i>
-                  <i class="fa fa-fw fa-close" *ngIf="!item.ativo"></i>
-                </td>
                 <td><button class="btn btn-danger" (click)="deletar(item.id)"><i class="fa fa-fw fa-trash"></i></button></td>
               </tr>
             </table>

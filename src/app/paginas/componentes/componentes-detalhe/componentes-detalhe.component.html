@@ -8,7 +8,7 @@
     <ol class="breadcrumb">
       <li><a routerLink="/pages/home"><i class="fa fa-home"></i> Home</a></li>
       <li>Cadastros</li>
-      <li><a routerLink="/pages/produtos">Produtos</a></li>
+      <li><a routerLink="/pages/componentes">Componentes</a></li>
       <li class="active">{{breadCrumb}}</li>
     </ol>
   </section>
@@ -31,30 +31,20 @@
           <!-- form start -->
           <form #form="ngForm" role="form" (ngSubmit)="salvar(form)">
             <div class="box-body">
-              <input id="id" type="text" class="form-control" [ngModel]="produto.id" name="id" [style.display]="'none'" />
+              <input id="id" type="text" class="form-control" [ngModel]="componente.id" name="id" [style.display]="'none'" />
 
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group" [class.has-error]="!nome.valid && nome.touched" [class.has-feedback]="!nome.valid && nome.touched">
                     <label for="nome" class="control-label">Nome*</label>
-                    <input id="nome" type="text" class="form-control" placeholder="Nome" [ngModel]="produto.nome" name="nome" required #nome="ngModel"
+                    <input id="nome" type="text" class="form-control" placeholder="Nome" [ngModel]="componente.nome" name="nome" required #nome="ngModel"
                     />
                     <div *ngIf="!nome.valid && nome.touched" class="alert alert-danger" role="alert">
                       <i class="icon fa fa-ban"></i> Campo obrigatório!
                     </div>
                   </div>
                 </div>
-
-                <div class="col-md-2" style="height: 74px;">
-                  <div class="form-group checkbox checkbox-primary" style="margin-top: 31px;">
-                    <input id="checkbox" type="checkbox" class="form-control" name="ativo" [ngModel]="produto.ativo">
-                    <label for="checkbox" class="control-label"><b>Ativo</b></label>
-                  </div>
-                </div>
               </div>
-
-              <!--vinculo de comonentes com o produto-->
-              <app-produto-componentes></app-produto-componentes>
             </div>
             <!-- /.box-body -->
 

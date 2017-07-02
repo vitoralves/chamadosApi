@@ -1,17 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AppComponent } from '../../../app.component';
-import { EmpresasDetalheService } from './empresas-detalhe.service';
+import { ComponentesDetalheService } from './componentes-detalhe.service';
 
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
+import '../../../../tema/js/myjs.js';
+
+// responsavel por chamar o script que fechar o alert
+declare var execute: any;
+
 @Component({
-  selector: 'app-empresas-detalhe',
-  templateUrl: './empresas-detalhe.component.html',
-  styleUrls: ['./empresas-detalhe.component.css']
+  selector: 'app-componentes-detalhe',
+  templateUrl: './componentes-detalhe.component.html',
+  styleUrls: ['./componentes-detalhe.component.css']
 })
-export class EmpresasDetalheComponent implements OnInit {
+export class ComponentesDetalheComponent implements OnInit {
 
   //informacoes de titulo da página
   tituloPagina: string = '';
@@ -23,36 +28,29 @@ export class EmpresasDetalheComponent implements OnInit {
   texto: string = '';
   alertCss: string = '';
 
-  public celMask = ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
-  public telMask = ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
-
-  //entidade que vou trabalhar no form
-  empresa: any = {
-    id:null,
-    nome: null,
-    telefone: null,
-    celular: null,
-    email: null,
-    endereco: null
+  //entidade para trabalhar no form
+  componente: any = {
+    id: null,
+    nome: null
   }
 
 
-  constructor(private rootComp: AppComponent, private service: EmpresasDetalheService, private rotaAtiva: ActivatedRoute, private rota: Router) {
+  constructor(private rootComp: AppComponent, private service: ComponentesDetalheService, private rotaAtiva: ActivatedRoute, private rota: Router) {
     this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini sidebar-collapse';
     this.rotaAtiva.params.subscribe(params => {
-      if (params.id > 0){
-        this.tituloPagina = 'Editar Empresa '+params.id;
+      if (params.id > 0) {
+        this.tituloPagina = 'Editar Componente ' + params.id;
         this.breadCrumb = 'Editar';
         this.service.buscarPorId(params.id).then(result => {
-          if(result.data.id > 0){
-            this.empresa = result.data;
-          }else{
+          if (result.data.id > 0) {
+            this.componente = result.data;
+          } else {
             this.rota.navigate(['pages/nao-encontrado']);
           }
         });
-      }else{
-          this.tituloPagina = 'Inserir nova Empresa';
-          this.breadCrumb = 'Novo';
+      } else {
+        this.tituloPagina = 'Inserir novo Componente';
+        this.breadCrumb = 'Novo';
       }
     })
   }
@@ -61,32 +59,38 @@ export class EmpresasDetalheComponent implements OnInit {
 
   }
 
-  salvar(form){
+  // chamado toda vez que uma checagem do componente é feita
+  ngAfterViewChecked() {
+    // fecha alert automatico
+    execute.funcao();
+  }
+
+  salvar(form) {
     //fecha a mensagem para ser exibida novamente
     this.mensagem = false;
-    if (form.value.id > 0){
+    if (form.value.id > 0) {
       this.service.update(form.value).then(result => {
-        if (result.status === 200){
-          this.rota.navigate(['/pages/empresas']);
-        }else{
+        if (result.status === 200) {
+          this.rota.navigate(['/pages/componentes']);
+        } else {
           this.mensagem = true;
-          this.texto = 'Ocorreu um erro ao salvar empresa!';
+          this.texto = 'Ocorreu um erro ao salvar Componente!';
           this.titulo = 'Erro';
           this.icon = 'fa-ban';
           this.alertCss = 'alert-danger';
         }
       })
-    }else{
+    } else {
       this.service.adicionar(form.value).then(result => {
-        if (result.status === 200){
+        if (result.status === 200) {
           this.mensagem = true;
-          this.texto = 'Empresa salva com sucesso!';
+          this.texto = 'Componente salvo com sucesso!';
           this.titulo = 'Sucesso';
           this.icon = 'fa-check';
           this.alertCss = 'alert-success';
-        }else{
+        } else {
           this.mensagem = true;
-          this.texto = 'Ocorreu um erro ao salvar empresa!';
+          this.texto = 'Ocorreu um erro ao salvar Componente!';
           this.titulo = 'Erro';
           this.icon = 'fa-ban';
           this.alertCss = 'alert-danger';

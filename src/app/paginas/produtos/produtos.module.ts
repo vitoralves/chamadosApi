@@ -9,10 +9,11 @@ import { ProdutosDetalheComponent } from './produtos-detalhe/produtos-detalhe.co
 
 //provedores
 import { ProdutosService } from './produtos.service';
+import { ProdutoComponentesService } from './produto-componentes/produto-componentes.service';
 import { ProdutosDetalheService } from './produtos-detalhe/produtos-detalhe.service';
 
 import { TextMaskModule } from 'angular2-text-mask';
-
+import { ProdutoComponentesComponent } from './produto-componentes/produto-componentes.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -23,8 +24,9 @@ import { TextMaskModule } from 'angular2-text-mask';
     ],
     declarations: [
         ProdutosComponent,
-        ProdutosDetalheComponent
+        ProdutosDetalheComponent,
+        ProdutoComponentesComponent
     ],
-    providers: [ProdutosService, ProdutosDetalheService]
+    providers: [ProdutosService, ProdutosDetalheService, ProdutoComponentesService]
 })
 export class ProdutosModule { }

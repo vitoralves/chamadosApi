@@ -67,6 +67,8 @@ export class ProdutosDetalheComponent implements OnInit {
   }
 
   salvar(form) {
+    //fecha a mensagem para ser exibida novamente
+    this.mensagem = false;
     if (form.value.id > 0) {
       this.service.update(form.value).then(result => {
         if (result.status === 200) {

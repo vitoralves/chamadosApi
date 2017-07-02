@@ -11,10 +11,10 @@ export class ComponentesService {
   constructor(private http: Http, private util: UtilService) { }
   
   retornaTodosComponentes(){
-
+    return this.http.get('http://localhost:3000/api/componentes/all').map(res => res.json()).toPromise();
   }
 
-  apagarItem(){
-    
+  apagarItem(id: number){
+    return this.http.delete('http://localhost:3000/api/componente/delete/'+id).map(res => res.json()).toPromise();
   }
 }
