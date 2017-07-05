@@ -26,6 +26,7 @@ router.delete('/api/empresas/produtos/delete/:id', db.deleteEmpresasProdutos);
 // produtos
 router.get('/api/produto/:produto', db.getProduto);
 router.get('/api/produtos/all', db.getTodosProdutos);
+router.get('/api/produtos/empresa/:empresa', db.getProdutosPorEmpresa);
 router.post('/api/produtos/novo/:produto', db.adicionarProduto);
 router.put('/api/produto/update/:produto', db.updateProduto);
 router.delete('/api/produto/delete/:id', db.deleteProduto);
@@ -43,8 +44,12 @@ router.put('/api/usuario/senha/:id/:senha', db.updateSenha);
 router.get('/api/componente/:componente', db.getComponente);
 router.get('/api/componentes/all', db.getTodosComponentes);
 router.get('/api/componentes/produtos/:id', db.getTodosComponentesPorProduto);
+router.get('/api/componentes/produtos/vincular/:id', db.getComponetesVincular);
 router.post('/api/componentes/novo/:componente', db.adicionarComponente);
 router.put('/api/componente/update/:componente', db.updateComponente);
 router.delete('/api/componente/delete/:id', db.deleteComponente);
+//tickets
+router.get('/api/tickets/all/empresa/:empresa', db.getTodosTicketsPorEmpresa);
+router.post('/api/tickets/novo/:ticket', db.adicionarTicket);
 
 module.exports = router;

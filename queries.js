@@ -330,6 +330,21 @@ function getTodosProdutos(req, res, next) {
     })
 }
 
+function getProdutosPorEmpresa(req, res, next) {
+  var empresa = req.params.empresa;
+
+  db.any('select p.* from empresas_produtos ep join produtos p on p.id = ep.produto where ep.empresa = $1', empresa)
+    .then(function (data) {
+      res.status(200)
+        .json({
+          data: data
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    })
+}
+
 function deleteProduto(req, res, next) {
   var id = req.params.id;
   db.query('delete from produtos where id = $1', id)
@@ -539,7 +554,7 @@ function updateSenha(req, res, next) {
 
 
 // ***********************
-// PRODUTOS
+// COMPONENTES
 // **********************
 function updateComponente(req, res, next) {
   var objeto = JSON.parse(req.params.componente);
@@ -596,6 +611,20 @@ function getTodosComponentes(req, res, next) {
 
 function getTodosComponentesPorProduto(req, res, next) {
   var id = req.params.id;
+  db.any('select c.* from produtos_componentes pc join componentes c on c.id = pc.componente where pc.produto = $1', id)
+    .then(function (data) {
+      res.status(200)
+        .json({
+          data: data
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    })
+}
+
+function getComponetesVincular(req, res, next) {
+  var id = req.params.id;
   db.any('select c.* from componentes c where c.id not in (select pc.componente from produtos_componentes pc where produto = $1)', id)
     .then(function (data) {
       res.status(200)
@@ -611,6 +640,41 @@ function getTodosComponentesPorProduto(req, res, next) {
 function deleteComponente(req, res, next) {
   var id = req.params.id;
   db.query('delete from componentes where id = $1', id)
+    .then(function (f) {
+      res.status(200)
+        .json({
+          status: 'success'
+        })
+    }).catch(function (e) {
+      res.status(200)
+        .json({
+          status: 'error',
+          message: '' + e
+        });
+    })
+}
+
+/********************
+ * TICKETS
+ *******************/
+
+function getTodosTicketsPorEmpresa(req, res, next) {
+  var id = req.params.empresa;
+  db.any('select * from tickets where empresa = $1', id)
+    .then(function (data) {
+      res.status(200)
+        .json({
+          data: data
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    })
+}
+
+function adicionarTicket(req, res, next) {
+  var objeto = JSON.parse(req.params.ticket);
+  db.query('insert into tickets(produto,empresa,componente,dt_abertura,prioridade,sumario,descricao) values($1,$2,$3,$4,$5,$6,$7)', [objeto.produto, objeto.empresa, objeto.componente, objeto.dt_abertura, objeto.prioridade, objeto.sumario, objeto.descricao])
     .then(function (f) {
       res.status(200)
         .json({
@@ -645,6 +709,7 @@ module.exports = {
   // produtos
   getProduto: getProduto,
   getTodosProdutos: getTodosProdutos,
+  getProdutosPorEmpresa: getProdutosPorEmpresa,
   adicionarProduto: adicionarProduto,
   deleteProduto: deleteProduto,
   updateProduto: updateProduto,
@@ -662,7 +727,11 @@ module.exports = {
   getComponente: getComponente,
   getTodosComponentes: getTodosComponentes,
   getTodosComponentesPorProduto: getTodosComponentesPorProduto,
+  getComponetesVincular: getComponetesVincular,
   adicionarComponente: adicionarComponente,
   deleteComponente: deleteComponente,
   updateComponente: updateComponente,
+  //tickets
+  getTodosTicketsPorEmpresa: getTodosTicketsPorEmpresa,
+  adicionarTicket: adicionarTicket,
 };
