@@ -32,4 +32,10 @@ export class UtilService {
     return this.http.get('http://localhost:3000/api/usuario/getUsuarioPorId/'+window.sessionStorage.getItem('idusuario')).map(res => res.json()).toPromise();
   }
 
+  retornaDataFormatada(data){
+    var date = new Date(data);
+    var formatada = date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear()+' '+date.getHours()+':'+date.getMinutes();
+    return formatada;
+  }
+
 }

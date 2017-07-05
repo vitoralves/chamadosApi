@@ -41,7 +41,7 @@ export class PerfilComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
-    execute.funcao();
+    if (this.titulo == 'Sucesso'){       execute.funcao();     }   
   }
 
   salvar() {

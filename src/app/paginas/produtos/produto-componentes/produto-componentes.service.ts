@@ -12,7 +12,7 @@ export class ProdutoComponentesService {
   }
 
   getTodosProdutosComponentes(id){
-    return this.http.get('http://localhost:3000/api/componentes/produtos/'+id).map(res => res.json()).toPromise();
+    return this.http.get('http://localhost:3000/api/componentes/produtos/vincular/'+id).map(res => res.json()).toPromise();
   }
 
   salvarComponenteProduto(produtoComponente: any){

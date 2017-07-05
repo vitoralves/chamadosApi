@@ -63,7 +63,7 @@ export class ProdutosDetalheComponent implements OnInit {
   // chamado toda vez que uma checagem do componente é feita
   ngAfterViewChecked() {
     // fecha alert automatico
-    execute.funcao();
+    if (this.titulo == 'Sucesso'){       execute.funcao();     }   
   }
 
   salvar(form) {

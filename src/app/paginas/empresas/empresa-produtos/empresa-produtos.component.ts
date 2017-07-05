@@ -46,7 +46,7 @@ export class EmpresaProdutosComponent implements OnInit {
   private getListProdutosPorEmpresa() {
     this.service.getEmpresasProdutosPorEmpresa(this.empresa).then(data => {
       this.listProdutosPorEmpresa = data.data;
-      execute.funcao();
+      if (this.titulo == 'Sucesso'){       execute.funcao();     }   
     });
   }
 

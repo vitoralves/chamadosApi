@@ -36,27 +36,51 @@
 
     <div class="row">
       <div class="col-md-12">
-        <h4 class="box-title">Meus chamados</h4>
+        <div class="box box-primary">
+          <div class="box-body">
+            <h4 class="box-title">Meus chamados</h4>
+            <!--FILTRO-->
+            <div class="row">
+              <div class="col-md-4">
+                <p class="filtro">Filtrar por:</p>
+                <select name="filtro" [(ngModel)]="filtro" class="form-control select2" style="max-width: 150px;float: left;">
+              <option value="">Selecione</option>
+              <option value="I">ID</option>
+              <option value="P">Produto</option>
+              <option value="E">Estado</option>
+            </select>
+              </div>
 
-        <div class="box-body table-responsive no-padding">
-          <table class="table table-hover">
-            <tr>
-              <th>ID</th>
-              <th>Produto</th>
-              <th>Estado</th>
-              <th>Componente</th>
-              <th>Dt Abertura</th>
-              <th></th>
-            </tr>
-            <tr *ngFor="let item of tickets">
-              <td (click)="editar(item.id)">{{item.id}}</td>
-              <td (click)="editar(item.id)">{{item.produto}}</td>
-              <td (click)="editar(item.id)">{{item.estado}}</td>
-              <td (click)="editar(item.id)">{{item.componente}}</td>
-              <td (click)="editar(item.id)">{{item.dt_abertura}}</td>
-              <td><button class="btn btn-danger" (click)="deletar(item.id)"><i class="fa fa-fw fa-trash"></i></button></td>
-            </tr>
-          </table>
+              <div class="col-md-4">
+                <p class="filtro">Tipo:</p>
+                <select name="tipo" [(ngModel)]="tipo" class="form-control select2" style="max-width: 150px;float: left;">
+              <option *ngFor="let t of tipo" [ngValue]>Selecione</option>
+            </select>
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="btn btn-block btn-primary" (click)="inserirTicket()">Adicionar</button>
+              </div>
+            </div>
+
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tr>
+                  <th>ID</th>
+                  <th>Produto</th>
+                  <th>Estado</th>
+                  <th>Componente</th>
+                  <th>Dt Abertura</th>
+                </tr>
+                <tr *ngFor="let item of tickets">
+                  <td (click)="editar(item.id)">{{item.id}}</td>
+                  <td (click)="editar(item.id)">{{item.produto}}</td>
+                  <td (click)="editar(item.id)">{{item.estado}}</td>
+                  <td (click)="editar(item.id)">{{item.componente}}</td>
+                  <td (click)="editar(item.id)">{{formataData(item.dt_abertura)}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>

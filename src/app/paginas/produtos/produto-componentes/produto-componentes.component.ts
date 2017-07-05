@@ -45,7 +45,7 @@ export class ProdutoComponentesComponent implements OnInit {
   private getListComponentesPorProduto() {
     this.service.getProdutosComponentesPorProduto(this.produto).then(data => {
       this.listComponentesPorProduto = data.data;
-      execute.funcao();
+      if (this.titulo == 'Sucesso'){       execute.funcao();     }   
     });
   }
 

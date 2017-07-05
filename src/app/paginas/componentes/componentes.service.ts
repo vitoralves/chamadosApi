@@ -17,4 +17,8 @@ export class ComponentesService {
   apagarItem(id: number){
     return this.http.delete('http://localhost:3000/api/componente/delete/'+id).map(res => res.json()).toPromise();
   }
+
+  retornaComponentesPorProduto(produto){
+    return this.http.get('http://localhost:3000/api/componentes/produtos/'+produto).map(res => res.json()).toPromise();
+  }
 }

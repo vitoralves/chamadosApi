@@ -17,4 +17,8 @@ export class ProdutosService {
   apagarItem(id: number){
     return this.http.delete('http://localhost:3000/api/produto/delete/'+id).map(res => res.json()).toPromise();
   }
+
+  retornaProdutosPorEmpresa(empresa: number){
+    return this.http.get('http://localhost:3000/api/produtos/empresa/'+empresa).map(res => res.json()).toPromise();
+  }
 }
