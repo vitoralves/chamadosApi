@@ -34,6 +34,11 @@
           <!-- form start -->
           <form role="form" (ngSubmit)="salvar()">
             <div class="box-body">
+              
+              <div class="overlay full-overlay" [hidden]="loading">
+                  <i class="fa fa-refresh fa-spin"></i>
+              </div>
+
               <div class="row">
                 <div class="col-md-2">
                   <label for="foto">Avatar</label><br/>
@@ -42,7 +47,7 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="iput">Alterar avatar</label>
-                    <input type="file" id="input" name="foto" (change)="alteraFoto($event)">
+                    <input type="file" id="input" [(ngModel)]="fotoBase64" name="foto" (change)="alteraFoto($event)">
                   </div>
                 </div>                
               </div>
