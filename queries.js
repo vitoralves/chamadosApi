@@ -1,4 +1,6 @@
 var promise = require('bluebird');
+var multer = require('multer');
+var upload = multer().single('avatar');
 
 var options = {
   promiseLib: promise
@@ -72,24 +74,6 @@ function updatePerfil(req, res, next) {
         message: 'token inválido!'
       });
   }
-}
-
-function updatePerfilFoto(req, res, next) {
-  var img = req.params.img;
-  console.log(img);
-  /*db.query('update usuarios set imagem = $1', r)
-    .then(function () {
-      res.status(200)
-        .json({
-          message: 'sucesso'
-        });
-    }).catch(function (e) {
-      res.status(500)
-        .json({
-          status: 'error',
-          message: '' + e
-        })
-    });*/
 }
 
 function getUsuario(req, res, next) {
@@ -552,6 +536,34 @@ function updateSenha(req, res, next) {
     })
 }
 
+function updateAvatar(req, res, next) {
+  upload(req, res, function (err) {
+    if (err) {
+      res.status(200)
+        .json({
+          status: 'error',
+          message: '' + err
+        });
+    }
+    var bytes = new Buffer(req.file.buffer, 'base64').toString('base64');
+    var id = req.params.id;
+    db.query('update usuarios set imagem = $1 where id = $2', [bytes, id])
+    .then(function (f){
+      res.status(200)
+      .json({
+        status: 'success',
+        message: 'Imagem alterada com sucesso!' 
+      })
+    }).catch(function (e) {
+      res.status(200)
+      .json({
+        status: 'error',
+        message: 'ERRO: ' +e 
+      });
+    })
+    
+  })
+}
 
 // ***********************
 // COMPONENTES
@@ -695,7 +707,6 @@ module.exports = {
   getUsuario: getUsuario,
   updatePerfil: updatePerfil,
   getUsuarioPorId: getUsuarioPorId,
-  updatePerfilFoto: updatePerfilFoto,
   // empresas
   getEmpresa: getEmpresa,
   getTodasEmpresas: getTodasEmpresas,
@@ -723,6 +734,7 @@ module.exports = {
   deleteUsuario: deleteUsuario,
   updateUsuario: updateUsuario,
   updateSenha: updateSenha,
+  updateAvatar: updateAvatar,
   // componentes
   getComponente: getComponente,
   getTodosComponentes: getTodosComponentes,

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
@@ -12,8 +12,8 @@ var db = require('../queries.js');
 router.get('/api/logar/:email/:senha/:token', db.getUsuario);
 router.get('/api/usuario/getUsuarioPorId/:usuario', db.getUsuarioPorId);
 router.put('/api/perfil/salvar/:usu/:token', db.updatePerfil);
-router.put('/api/perfil/imagem/:img', db.updatePerfilFoto);
-// empresa
+router.post('/api/perfil/imagem/upload/:id', db.updateAvatar)
+//empresa
 router.get('/api/empresa/:empresa', db.getEmpresa);
 router.get('/api/empresas/all/:token', db.getTodasEmpresas);
 router.post('/api/empresas/novo/:empresa', db.adicionarEmpresa);
