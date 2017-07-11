@@ -27,6 +27,7 @@ export class TicketsComponent implements OnInit {
   ticket = {
     produto: null,
     empresa: null,
+    estado: null,
     componente: null,
     dt_abertura: null,
     prioridade: null,
@@ -67,6 +68,7 @@ export class TicketsComponent implements OnInit {
 
   salvar(form) {
     this.ticket.empresa = this.usuario.empresa;
+    this.ticket.estado = 0;
     var data = new Date().toISOString();
     this.ticket.dt_abertura = data.toString();
     

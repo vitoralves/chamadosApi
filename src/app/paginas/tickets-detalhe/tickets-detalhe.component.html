@@ -1,0 +1,106 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      {{tituloPagina}}
+    </h1>
+    <ol class="breadcrumb">
+      <li><a routerLink="/pages/home"><i class="fa fa-home"></i> Home</a></li>
+      <li><a>Tickets</a></li>
+      <li class="active">{{breadCrumb}}</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="alert {{alertCss}} alert-dismissible" *ngIf="mensagem">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h4><i class="icon fa {{icon}}"></i> {{titulo}}</h4>
+              {{texto}}
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <!-- form start -->
+          <form #form="ngForm" role="form" (ngSubmit)="salvar(form)">
+            <div class="box-body cinza">
+              <h4 class="box-title">Dados do Ticket</h4>
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="control-label">Produto:</label>
+                    <p>{{produto}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="control-label">Componente:</label>
+                    <p>{{componente}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="control-label">Prioridade:</label>
+                    <p>{{retornaPrioridade(prioridade)}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="control-label">Estado:</label>
+                    <p>{{retornaEstado(estado)}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="control-label">Dt. Abertura:</label>
+                    <p>{{formataData(dt_abertura)}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="control-label">Dt. Resolução:</label>
+                    <p>{{formataData(dt_resolvido)}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="control-label">Sumário:</label>
+                    <p>{{sumario}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-body -->
+
+            <div class="divider"></div>
+
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="comentario" class="control-label">Novo comentário:</label>
+                      <textarea class="form-control" rows="5" ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.box -->
+      </div>
+    </div>
+  </section>
+</div>

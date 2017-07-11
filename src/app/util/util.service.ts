@@ -38,4 +38,45 @@ export class UtilService {
     return formatada;
   }
 
+  formataData(data){
+    if (data == null){
+      return '-';
+    }
+    return this.retornaDataFormatada(data);
+  }
+  
+  retornaPrioridade(p: number){
+    switch(p){
+      case 0: {
+        return 'Baixa';
+      }
+      case 1: {
+        return 'Média';
+      }
+      case 2: {
+        return 'Alta';
+      }
+      case 3: {
+        return 'Muito Alta';
+      }
+      default: {
+        return 'Não identificado';
+      }
+    }
+  }
+
+  retornaEstado(e: number){
+    switch(e){
+      case 0: {
+        return 'Aberto';
+      }
+      case 1: {
+        return 'Em andamento';
+      }
+      case 2: {
+        return 'Resolvido';
+      }
+    }
+  }
+
 }

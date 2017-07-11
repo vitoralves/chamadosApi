@@ -67,16 +67,22 @@
                 <tr>
                   <th>ID</th>
                   <th>Produto</th>
+                  <th *ngIf="adm">Cliente</th>
+                  <th>Prioridade</th>
                   <th>Estado</th>
                   <th>Componente</th>
                   <th>Dt Abertura</th>
+                  <th>Dt Resolução</th>
                 </tr>
                 <tr *ngFor="let item of tickets">
-                  <td (click)="editar(item.id)">{{item.id}}</td>
-                  <td (click)="editar(item.id)">{{item.produto}}</td>
-                  <td (click)="editar(item.id)">{{item.estado}}</td>
-                  <td (click)="editar(item.id)">{{item.componente}}</td>
-                  <td (click)="editar(item.id)">{{formataData(item.dt_abertura)}}</td>
+                  <td (click)="abrirTicket(item.id)">{{item.id}}</td>
+                  <td (click)="abrirTicket(item.id)">{{item.produto}}</td>
+                  <td (click)="abrirTicket(item.id)" *ngIf="adm">{{item.cliente}}</td>
+                  <td (click)="abrirTicket(item.id)">{{retornaPrioridade(item.prioridade)}}</td>
+                  <td (click)="abrirTicket(item.id)">{{retornaEstado(item.estado)}}</td>
+                  <td (click)="abrirTicket(item.id)">{{item.componente}}</td>
+                  <td (click)="abrirTicket(item.id)">{{formataData(item.dt_abertura)}}</td>
+                  <td (click)="abrirTicket(item.id)">{{formataData(item.dt_resolvido)}}</td>
                 </tr>
               </table>
             </div>

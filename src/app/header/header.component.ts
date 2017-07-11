@@ -39,7 +39,6 @@ export class HeaderComponent implements OnInit {
   formaNomeReduzido(nome: string){
     var split = nome.split(' ');
     for(var x=0;x<split.length;x++){
-      console.log(split[x]);
       this.nomeReduzido += split[x].charAt(0);      
     }    
   }
