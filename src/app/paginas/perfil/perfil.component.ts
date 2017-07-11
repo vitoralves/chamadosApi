@@ -30,23 +30,27 @@ export class PerfilComponent implements OnInit {
   icon: string = '';
   foto: Array<File>;
   fotoBase64: any;
-  loading:boolean = true;
+  loading: boolean = true;
 
   constructor(private rootComp: AppComponent, private util: UtilService, private service: PerfilService, private rota: Router, private sanitizer: DomSanitizer) {
     this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini sidebar-collapse';
     this.foto = [];
-    
+
   }
 
   ngOnInit() {
     this.util.retornaUsuario().then(data => {
       this.usuario = data.data;
-      this.usuario.imagem = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64, '+this.usuario.imagem);
+      if (this.usuario.imagem === null) {
+        this.usuario.imagem = this.sanitizer.bypassSecurityTrustUrl(this.util.retornaBytesAvatar());
+      } else {
+        this.usuario.imagem = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64, ' + this.usuario.imagem);
+      }
     })
   }
 
   ngAfterViewChecked() {
-    if (this.titulo == 'Sucesso') { execute.funcao(); location.reload()}
+    if (this.titulo == 'Sucesso') { execute.funcao(); location.reload() }
   }
 
   salvar() {
@@ -71,10 +75,10 @@ export class PerfilComponent implements OnInit {
   alteraFoto(arquivo: any) {
     this.loading = false;
     this.foto = <Array<File>>arquivo.target.files;
-    
+
     //exibir imagem ao alterar
-    var file:File = <File>arquivo.target.files[0];
-    var myReader:FileReader = new FileReader();
+    var file: File = <File>arquivo.target.files[0];
+    var myReader: FileReader = new FileReader();
     myReader.onloadend = (e) => {
       this.usuario.imagem = myReader.result;
     }
@@ -82,29 +86,29 @@ export class PerfilComponent implements OnInit {
 
     this.mensagem = false;
 
-    this.makeFileRequest("http://localhost:3000/api/perfil/imagem/upload/"+this.usuario.id, [], this.foto).then((result) => {
-      if (result['status'] === 'success'){
+    this.makeFileRequest("http://localhost:3000/api/perfil/imagem/upload/" + this.usuario.id, [], this.foto).then((result) => {
+      if (result['status'] === 'success') {
         this.mensagem = true;
         this.titulo = 'Sucesso';
         this.texto = 'Imagem alterada com sucesso!';
         this.alertCss = 'alert-success';
         this.icon = 'fa-check';
         this.loading = true;
-      }else{
+      } else {
         this.mensagem = true;
         this.titulo = 'Alerta';
-        this.texto = 'Falha ao alterar imagem!'+result['message'];
+        this.texto = 'Falha ao alterar imagem!' + result['message'];
         this.alertCss = 'alert-warning';
         this.icon = 'fa-ban';
         this.loading = true;
       }
     }, (error) => {
       this.mensagem = true;
-        this.titulo = 'Alerta';
-        this.texto = 'Falha ao alterar imagem!'+error;
-        this.alertCss = 'alert-warning';
-        this.icon = 'fa-ban';
-        
+      this.titulo = 'Alerta';
+      this.texto = 'Falha ao alterar imagem!' + error;
+      this.alertCss = 'alert-warning';
+      this.icon = 'fa-ban';
+
     });
     this.foto = [];
     arquivo = null;

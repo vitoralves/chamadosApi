@@ -18,7 +18,11 @@ export class MenuLateralComponent implements OnInit {
   ngOnInit() {
     this.util.retornaUsuario().then(data => {
       this.usuario = data.data;
-      this.avatar = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64, '+this.usuario.imagem);
+      if (this.usuario.imagem === null) {
+        this.avatar = this.sanitizer.bypassSecurityTrustUrl(this.util.retornaBytesAvatar());
+      } else {
+        this.avatar = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64, ' + this.usuario.imagem);
+      }
       this.admin = this.usuario.adm;
     });
   }
