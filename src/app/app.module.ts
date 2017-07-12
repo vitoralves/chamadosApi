@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app.routing.module';
 
 import { UtilService } from './util/util.service';
 import { LogoutComponent } from './logout/logout.component';
+import { AuthGuard } from "app/guarda/authGuard";
+import { AdminGuard } from "app/guarda/adminGuard";
 
 @NgModule({
   imports: [
@@ -18,7 +20,8 @@ import { LogoutComponent } from './logout/logout.component';
     AppComponent,
     LogoutComponent
   ],
-  providers: [UtilService],
+  providers: [UtilService, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

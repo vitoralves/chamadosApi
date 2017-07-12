@@ -11,7 +11,7 @@ export class TicketsDetalheService {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     var jsonData = JSON.stringify(dados);
-    return this.http.post('http://localhost:3000/api/tickets/novo/'+jsonData, {headers: headers}).toPromise();
+    return this.http.post('http://localhost:3000/api/tickets/comentario/novo/'+jsonData, {headers: headers}).toPromise();
   }
 
   buscarPorId(id: number){
@@ -23,5 +23,10 @@ export class TicketsDetalheService {
     headers.append('Content-Type', 'application/json');
     var jsonData = JSON.stringify(dados);
     return this.http.put('http://localhost:3000/api/ticket/update/'+jsonData, {headers: headers}).toPromise();
+  }
+
+
+  listarComentarios(id: number){
+    return this.http.get('http://localhost:3000/api/ticket/comentarios/'+id).map(res => res.json()).toPromise();
   }
 }

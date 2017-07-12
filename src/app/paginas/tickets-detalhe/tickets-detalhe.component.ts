@@ -1,3 +1,4 @@
+import { DomSanitizer } from '@angular/platform-browser';
 import { UtilService } from './../../util/util.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -37,86 +38,125 @@ export class TicketsDetalheComponent implements OnInit {
   dt_resolvido: String;
   sumario: String;
   descricao: String;
+  usuario: String;
+  ticketId: number;
 
-  constructor(private rootComp: AppComponent, private service: TicketsDetalheService, private rotaAtiva: ActivatedRoute, private rota: Router, private util: UtilService) {
+  novoComentario: String = '';
+
+  listaComentarios: any;
+
+  constructor(private rootComp: AppComponent, private service: TicketsDetalheService, private rotaAtiva: ActivatedRoute, private rota: Router,
+   private util: UtilService, private sanitizer: DomSanitizer) {
     this.rootComp.cssClass = 'hold-transition skin-blue-light sidebar-mini sidebar-collapse';
     this.rotaAtiva.params.subscribe(params => {
-        this.tituloPagina = 'Ticket ' + params.id;
-        this.breadCrumb = 'Detalhe';
-        this.service.buscarPorId(params.id).then(result => {
-          if (result.data.id > 0) {
-            this.produto = result.data.produto;
-            this.componente = result.data.componente;
-            this.prioridade = result.data.prioridade;
-            this.estado = result.data.estado;
-            this.dt_abertura = result.data.dt_abertura;
-            this.dt_resolvido = result.data.dt_resolvido;
-            this.sumario = result.data.sumario;
-            this.descricao = result.data.descricao;
-          } else {
-            this.rota.navigate(['pages/nao-encontrado']);
-          }
-        });
+      this.ticketId = params.id;
+      this.tituloPagina = 'Ticket ' + this.ticketId;
+      this.breadCrumb = 'Detalhe';
+      this.service.buscarPorId(params.id).then(result => {
+        if (result.data.id > 0) {
+          this.produto = result.data.produto;
+          this.componente = result.data.componente;
+          this.prioridade = result.data.prioridade;
+          this.estado = result.data.estado;
+          this.dt_abertura = result.data.dt_abertura;
+          this.dt_resolvido = result.data.dt_resolvido;
+          this.sumario = result.data.sumario;
+          this.descricao = result.data.descricao;
+          this.usuario = result.data.usuario;
+        } else {
+          this.rota.navigate(['pages/nao-encontrado']);
+        }
+      });
     })
   }
 
   ngOnInit() {
+    this.listarComentarios();
+  }
 
+  listarComentarios(){
+    this.service.listarComentarios(this.ticketId).then(data => {
+      this.mensagem = false;
+      if (data.status === 'success') {
+        this.listaComentarios = data.data;
+      } else {
+        this.mensagem = true;
+        this.texto = 'Erro ao listar comentários! '+data.json().mensagem;
+        this.titulo = 'Erro';
+        this.icon = 'fa-ban';
+        this.alertCss = 'alert-error';
+      }
+    })
   }
 
   // chamado toda vez que uma checagem do componente é feita
   ngAfterViewChecked() {
     // fecha alert automatico
-    if (this.titulo == 'Sucesso'){       execute.funcao();     }   
+    if (this.titulo == 'Sucesso') { execute.funcao(); window.location.reload();}
   }
 
-  salvar(form) {
+  enviar() {
     //fecha a mensagem para ser exibida novamente
     this.mensagem = false;
-    if (form.value.id > 0) {
-      this.service.update(form.value).then(result => {
-        if (result.status === 200) {
-          this.rota.navigate(['/pages/tickets']);
-        } else {
+    if (this.novoComentario.length > 0) {
+
+      let ticket: any = {
+        id: null,
+        descricao: null,
+        anexo: null,
+        dt_envio: null,
+        usuario: null
+      };
+
+      ticket.id = this.ticketId;
+      ticket.descricao = this.novoComentario;
+      ticket.dt_envio = new Date().toISOString();
+      ticket.usuario = this.util.idUsuario();
+
+      this.service.adicionar(ticket).then(data => {
+        if (data.json().status === 'success') {
           this.mensagem = true;
-          this.texto = 'Ocorreu um erro ao salvar Ticket!';
-          this.titulo = 'Erro';
-          this.icon = 'fa-ban';
-          this.alertCss = 'alert-danger';
-        }
-      })
-    } else {
-      this.service.adicionar(form.value).then(result => {
-        if (result.status === 200) {
-          this.mensagem = true;
-          this.texto = 'Ticket salvo com sucesso!';
+          this.texto = 'Comentário adicionado';
           this.titulo = 'Sucesso';
           this.icon = 'fa-check';
           this.alertCss = 'alert-success';
-        } else {
-          this.mensagem = true;
-          this.texto = 'Ocorreu um erro ao salvar Ticket!';
-          this.titulo = 'Erro';
-          this.icon = 'fa-ban';
-          this.alertCss = 'alert-danger';
         }
-        form.reset();
       })
+
+    } else {
+      this.mensagem = true;
+      this.texto = 'Escreva um comentário';
+      this.titulo = 'Erro';
+      this.icon = 'fa-ban';
+      this.alertCss = 'alert-error';
+    }
+
+  }
+
+  doLogado(valor){
+    if (this.usuario.replace(' ', '').toLowerCase() !== valor.replace(' ', '').toLowerCase()){
+      return this.sanitizer.bypassSecurityTrustStyle('color: #f39c12 !important;');
     }
   }
 
-  retornaPrioridade(p: number){
+  retornaPrioridade(p: number) {
     return this.util.retornaPrioridade(p);
   }
 
-  retornaEstado(e: number){
+  retornaEstado(e: number) {
     return this.util.retornaEstado(e);
   }
 
-  formataData(d: any){
-    if (d == null){
+  formataData(d: any) {
+    if (d == null) {
       return '-';
     }
     return this.util.formataData(d);
+  }
+
+  capitalizar(valor) {
+    if (valor !== undefined) {
+      return this.util.capitalizarPrimeira(valor);
+    }
   }
 }

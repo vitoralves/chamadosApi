@@ -35,7 +35,10 @@ export class LoginComponent implements OnInit {
     this.service.logar(this.usuario.email,this.usuario.senha).then(data => {
       if(data.data[0] && data.data[0].id){
         let id = data.data[0].id;
+        let adm = data.data[0].adm;
+        console.log('adm '+adm);
         window.sessionStorage.setItem('idusuario', id);
+        window.sessionStorage.setItem('admin', adm);
         this.rota.navigate(['/pages/home']);
       }else{
         this.alerta = true;

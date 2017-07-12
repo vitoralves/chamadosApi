@@ -27,79 +27,120 @@
             </div>
           </div>
           <!-- /.box-header -->
-          <!-- form start -->
-          <form #form="ngForm" role="form" (ngSubmit)="salvar(form)">
-            <div class="box-body cinza">
-              <h4 class="box-title">Dados do Ticket</h4>
-              <div class="row">
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label class="control-label">Produto:</label>
-                    <p>{{produto}}</p>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label class="control-label">Componente:</label>
-                    <p>{{componente}}</p>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label class="control-label">Prioridade:</label>
-                    <p>{{retornaPrioridade(prioridade)}}</p>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label class="control-label">Estado:</label>
-                    <p>{{retornaEstado(estado)}}</p>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label class="control-label">Dt. Abertura:</label>
-                    <p>{{formataData(dt_abertura)}}</p>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label class="control-label">Dt. Resolução:</label>
-                    <p>{{formataData(dt_resolvido)}}</p>
-                  </div>
+          <div class="box-body cinza">
+            <h4 class="box-title">Dados do Ticket</h4>
+            <div class="row">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label">Produto:</label>
+                  <p>{{produto}}</p>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="control-label">Sumário:</label>
-                    <p>{{sumario}}</p>
-                  </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label">Componente:</label>
+                  <p>{{componente}}</p>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label">Prioridade:</label>
+                  <p>{{retornaPrioridade(prioridade)}}</p>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label">Estado:</label>
+                  <p>{{retornaEstado(estado)}}</p>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label">Dt. Abertura:</label>
+                  <p>{{formataData(dt_abertura)}}</p>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label">Dt. Resolução:</label>
+                  <p>{{formataData(dt_resolvido)}}</p>
                 </div>
               </div>
             </div>
-            <!-- /.box-body -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">Sumário:</label>
+                  <p>{{sumario}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-            <div class="divider"></div>
+          <!-- /.box-body -->
+          <div class="box-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="comentario" class="control-label">Novo comentário:</label>
+                  <textarea class="form-control" rows="3" [(ngModel)]="novoComentario" name="novoComentario"></textarea>
+                </div>
+                <button type="button" class="btn btn-primary direita" (click)="enviar()">Enviar</button>
+              </div>
+              
+              <div class="col-md-12">
+                <ul class="timeline">
+                  <!-- timeline time label -->
+                  <li class="time-label">
+                    <span class="bg-blue">
+                      Comentários
+                  </span>
+                  </li>
+                  <!-- /.timeline-label -->
+                  <!-- timeline item -->
+                  <li>
+                    <!-- timeline icon -->
+                    <i class="fa fa-comments bg-yellow"></i>
+                    <div class="timeline-item cinza">
+                      <span class="time"><i class="fa fa-clock-o"></i> {{formataData(dt_abertura)}}</span>
 
-            <div class="box-body">
-              <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                      <label for="comentario" class="control-label">Novo comentário:</label>
-                      <textarea class="form-control" rows="5" ></textarea>
+                      <h3 class="timeline-header"><a>Comentário 1 -</a> <b>{{capitalizar(usuario)}}</b></h3>
+
+                      <div class="timeline-body">
+                        {{descricao}}
+                      </div>
+
+                      <div class="timeline-footer">
+                        <!--<a class="btn btn-primary btn-xs">Editar</a>-->
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  </li>
+                  <!-- END timeline item -->
+
+                  <li *ngFor="let item of listaComentarios; index as idx;">
+                    <!-- timeline icon -->
+                    <i class="fa fa-comments bg-yellow"></i>
+                    <div class="timeline-item cinza">
+                      <span class="time"><i class="fa fa-clock-o"></i> {{formataData(item.dt_envio)}}</span>
+
+                      <h3 class="timeline-header"><a [style]="doLogado(item.nome)">Comentário {{idx+2}} -</a> <b>{{capitalizar(item.nome)}}</b></h3>
+
+                      <div class="timeline-body">
+                        {{item.descricao}}
+                      </div>
+
+                      <div class="timeline-footer">
+                        <!--<a class="btn btn-primary btn-xs">Editar</a>-->
+                      </div>
+                    </div>
+                  </li>
+                  <!-- END timeline item -->
+                </ul>
               </div>
             </div>
-
-            <div class="box-footer">
-              <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
-            </div>
-          </form>
+          </div>
+          <!-- /.box -->
         </div>
-        <!-- /.box -->
       </div>
     </div>
   </section>

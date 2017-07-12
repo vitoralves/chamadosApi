@@ -3,5 +3,14 @@
 }
 
 .cinza{
-    background-color: #dedede;
+    background: #ddd !important; 
+}
+
+.label-full {
+    width: 100%;
+}
+
+.direita {
+    float: right;
+    font-weight: bold;
 }

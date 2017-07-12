@@ -42,7 +42,7 @@ export class UsuariosDetalheComponent implements OnInit {
     id: null,
     nome: null,
     email: null,
-    adm: null,
+    adm: false,
     empresa: null,
     senha: null
   }

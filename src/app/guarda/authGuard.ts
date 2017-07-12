@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Rx';
 import { UtilService } from '../util/util.service';
 
 @Injectable()
-export class Guarda implements CanActivate {
+export class AuthGuard implements CanActivate {
 
   constructor(private util: UtilService, private router: Router) {  }
 
