@@ -49,7 +49,10 @@ router.post('/api/componentes/novo/:componente', db.adicionarComponente);
 router.put('/api/componente/update/:componente', db.updateComponente);
 router.delete('/api/componente/delete/:id', db.deleteComponente);
 //tickets
+router.get('/api/ticket/:id', db.getTicketPorId);
+router.get('/api/ticket/comentarios/:id', db.getTicketsComentarios);
 router.get('/api/tickets/all/empresa/:empresa', db.getTodosTicketsPorEmpresa);
 router.post('/api/tickets/novo/:ticket', db.adicionarTicket);
+router.post('/api/tickets/comentario/novo/:obj', db.adicionarTicketComentario);
 
 module.exports = router;

@@ -672,7 +672,8 @@ function deleteComponente(req, res, next) {
 
 function getTodosTicketsPorEmpresa(req, res, next) {
   var id = req.params.empresa;
-  db.any('select * from tickets where empresa = $1', id)
+  db.any('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente from tickets t join produtos p on p.id = t.produto '+
+          'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa where t.empresa = $1', id)
     .then(function (data) {
       res.status(200)
         .json({
@@ -697,6 +698,61 @@ function adicionarTicket(req, res, next) {
         .json({
           status: 'error',
           message: '' + e
+        });
+    })
+}
+
+function adicionarTicketComentario(req, res, next) {
+  var objeto = JSON.parse(req.params.obj);
+  db.query('insert into tickets_comentarios(ticket,descricao,anexo,dt_envio,usuario) values($1,$2,$3,$4,$5)', 
+  [objeto.id, objeto.descricao, objeto.anexo, objeto.dt_envio, objeto.usuario])
+    .then(function (f) {
+      res.status(200)
+        .json({
+          status: 'success'
+        })
+    }).catch(function (e) {
+      res.status(200)
+        .json({
+          status: 'error',
+          message: '' + e
+        });
+    })
+}
+
+function getTicketPorId(req, res, next) {
+  var id = req.params.id;
+  db.one('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente, t.sumario, t.descricao, u.nome as usuario '+
+          'from tickets t join produtos p on p.id = t.produto '+
+          'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa join usuarios u on t.usuario = u.id '+
+          'where t.id = $1', id)
+    .then(function (data) {
+      res.status(200)
+        .json({
+          data: data
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    })
+}
+
+
+function getTicketsComentarios(req, res, next) {
+  var id = req.params.id;
+  db.query('select tc.id,tc.descricao,tc.dt_envio,tc.anexo,u.nome from tickets_comentarios tc join usuarios u on u.id = tc.usuario where ticket = $1 order by tc.dt_envio', id)
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data
+        });
+    })
+    .catch(function (err) {
+      res.status(200)
+        .json({
+          status: 'error',
+          message: ''+err
         });
     })
 }
@@ -744,6 +800,9 @@ module.exports = {
   deleteComponente: deleteComponente,
   updateComponente: updateComponente,
   //tickets
+  getTicketPorId: getTicketPorId,
+  getTicketsComentarios: getTicketsComentarios,
   getTodosTicketsPorEmpresa: getTodosTicketsPorEmpresa,
   adicionarTicket: adicionarTicket,
+  adicionarTicketComentario: adicionarTicketComentario,
 };
