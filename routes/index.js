@@ -54,5 +54,6 @@ router.get('/api/ticket/comentarios/:id', db.getTicketsComentarios);
 router.get('/api/tickets/all/empresa/:empresa', db.getTodosTicketsPorEmpresa);
 router.post('/api/tickets/novo/:ticket', db.adicionarTicket);
 router.post('/api/tickets/comentario/novo/:obj', db.adicionarTicketComentario);
+router.post('/api/ticket/anexo/:id', db.addTicketAnexo);
 
 module.exports = router;

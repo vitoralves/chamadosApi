@@ -1,13 +1,13 @@
 var promise = require('bluebird');
 var multer = require('multer');
-var upload = multer().single('avatar');
+var upload = multer().single('arquivo');
 
 var options = {
   promiseLib: promise
 };
 
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://postgres:info2013@localhost:5432/chamados';
+var connectionString = 'postgres://postgres:a@localhost:5432/chamados';
 var db = pgp(connectionString);
 
 function tokenValido(t) {
@@ -537,6 +537,7 @@ function updateSenha(req, res, next) {
 }
 
 function updateAvatar(req, res, next) {
+  console.log(req.file);
   upload(req, res, function (err) {
     if (err) {
       res.status(200)
@@ -687,11 +688,13 @@ function getTodosTicketsPorEmpresa(req, res, next) {
 
 function adicionarTicket(req, res, next) {
   var objeto = JSON.parse(req.params.ticket);
-  db.query('insert into tickets(produto,empresa,componente,dt_abertura,prioridade,sumario,descricao) values($1,$2,$3,$4,$5,$6,$7)', [objeto.produto, objeto.empresa, objeto.componente, objeto.dt_abertura, objeto.prioridade, objeto.sumario, objeto.descricao])
+  db.query('insert into tickets(produto,empresa,componente,dt_abertura,prioridade,sumario,descricao,usuario,estado)'
+           +' values($1,$2,$3,$4,$5,$6,$7,$8,$9) returning id', [objeto.produto, objeto.empresa, objeto.componente, objeto.dt_abertura, objeto.prioridade, objeto.sumario, objeto.descricao, objeto.usuario, objeto.estado])
     .then(function (f) {
       res.status(200)
         .json({
-          status: 'success'
+          status: 'success',
+          data: f
         })
     }).catch(function (e) {
       res.status(200)
@@ -722,7 +725,7 @@ function adicionarTicketComentario(req, res, next) {
 
 function getTicketPorId(req, res, next) {
   var id = req.params.id;
-  db.one('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente, t.sumario, t.descricao, u.nome as usuario '+
+  db.one('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente, t.sumario, t.descricao, u.nome as usuario, t.anexo '+
           'from tickets t join produtos p on p.id = t.produto '+
           'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa join usuarios u on t.usuario = u.id '+
           'where t.id = $1', id)
@@ -756,6 +759,36 @@ function getTicketsComentarios(req, res, next) {
         });
     })
 }
+
+function addTicketAnexo(req, res, next) {
+  upload(req, res, function (err) {
+    if (err) {
+      res.status(200)
+        .json({
+          status: 'error',
+          message: '' + err
+        });
+    }
+    var bytes = new Buffer(req.file.buffer, 'base64').toString('base64');
+    var id = req.params.id;
+    db.query('update tickets set anexo = $1 where id = $2', [bytes, id])
+    .then(function (f){
+      res.status(200)
+      .json({
+        status: 'success',
+        message: 'Anexo inserido!' 
+      })
+    }).catch(function (e) {
+      res.status(200)
+      .json({
+        status: 'error',
+        message: 'ERRO: ' +e 
+      });
+    })
+    
+  })
+}
+
 
 module.exports = {
   // usuario
@@ -805,4 +838,5 @@ module.exports = {
   getTodosTicketsPorEmpresa: getTodosTicketsPorEmpresa,
   adicionarTicket: adicionarTicket,
   adicionarTicketComentario: adicionarTicketComentario,
+  addTicketAnexo: addTicketAnexo,
 };
