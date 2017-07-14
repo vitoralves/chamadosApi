@@ -95,6 +95,16 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Anexo -->
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group" >
+                    <label for="anexo" class="control-label">Anexo</label>
+                    <input type="file" id="input" [(ngModel)]="anexo" name="anexo" (change)="alteraAnexo($event)">
+                  </div>
+                </div>
+              </div>
             </div>
             <!-- /.box-body -->
 

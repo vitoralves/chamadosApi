@@ -128,7 +128,7 @@ export class PerfilComponent implements OnInit {
       var formData: any = new FormData();
       var xhr = new XMLHttpRequest();
 
-      formData.append("avatar", files[0], files[0].name);
+      formData.append("arquivo", files[0], files[0].name);
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {

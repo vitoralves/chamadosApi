@@ -40,6 +40,7 @@ export class TicketsDetalheComponent implements OnInit {
   descricao: String;
   usuario: String;
   ticketId: number;
+  anexo: any;
 
   novoComentario: String = '';
 
@@ -63,6 +64,9 @@ export class TicketsDetalheComponent implements OnInit {
           this.sumario = result.data.sumario;
           this.descricao = result.data.descricao;
           this.usuario = result.data.usuario;
+          if(result.data.anexo.length > 0){
+            this.anexo = 'data:application/pdf;base64,'+result.data.anexo;
+          }
         } else {
           this.rota.navigate(['pages/nao-encontrado']);
         }
@@ -131,6 +135,10 @@ export class TicketsDetalheComponent implements OnInit {
       this.alertCss = 'alert-error';
     }
 
+  }
+
+  baixarAnexo(){
+    window.location.href = this.anexo;
   }
 
   doLogado(valor){
