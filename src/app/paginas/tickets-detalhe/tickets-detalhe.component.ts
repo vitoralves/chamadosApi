@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
 import '../../../tema/js/myjs.js';
+import 'rxjs/Rx';
 
 // responsavel por chamar o script que fechar o alert
 declare var execute: any;
@@ -41,6 +42,8 @@ export class TicketsDetalheComponent implements OnInit {
   usuario: String;
   ticketId: number;
   anexo: any;
+  anexo_nome: any;
+  anexo_tipo: any;
 
   novoComentario: String = '';
 
@@ -64,8 +67,11 @@ export class TicketsDetalheComponent implements OnInit {
           this.sumario = result.data.sumario;
           this.descricao = result.data.descricao;
           this.usuario = result.data.usuario;
+          this.anexo_nome = result.data.anexo_nome;
+          this.anexo_tipo = result.data.anexo_mimetype;
           if(result.data.anexo.length > 0){
-            this.anexo = 'data:application/pdf;base64,'+result.data.anexo;
+            // this.anexo = 'data:'+this.anexo_tipo+';base64, '+result.data.anexo;
+            this.anexo = result.data.anexo;
           }
         } else {
           this.rota.navigate(['pages/nao-encontrado']);
@@ -138,7 +144,19 @@ export class TicketsDetalheComponent implements OnInit {
   }
 
   baixarAnexo(){
-    window.location.href = this.anexo;
+    var bytes = atob(this.anexo);
+    var byteArray = new Array(bytes.length);
+
+    for (var i=0; i < bytes.length; i++){
+      byteArray[i] = bytes.charCodeAt(i);
+    }
+
+    var array = new Uint8Array(byteArray);
+
+    var blob = new Blob([array], {type: this.anexo_tipo});
+    var url = window.URL.createObjectURL(blob);
+    window.open(url);
+    //window.location.href = this.anexo;
   }
 
   doLogado(valor){
