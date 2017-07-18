@@ -725,7 +725,7 @@ function adicionarTicketComentario(req, res, next) {
 
 function getTicketPorId(req, res, next) {
   var id = req.params.id;
-  db.one('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente, t.sumario, t.descricao, u.nome as usuario, t.anexo '+
+  db.one('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente, t.sumario, t.descricao, u.nome as usuario, t.anexo, t.anexo_nome, t.anexo_mimetype '+
           'from tickets t join produtos p on p.id = t.produto '+
           'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa join usuarios u on t.usuario = u.id '+
           'where t.id = $1', id)
@@ -769,9 +769,12 @@ function addTicketAnexo(req, res, next) {
           message: '' + err
         });
     }
+    let nome = req.file.originalname;
+    let tipo = req.file.mimetype;
+
     var bytes = new Buffer(req.file.buffer, 'base64').toString('base64');
     var id = req.params.id;
-    db.query('update tickets set anexo = $1 where id = $2', [bytes, id])
+    db.query('update tickets set anexo = $1, anexo_nome = $2, anexo_mimetype = $3 where id = $4', [bytes, nome, tipo, id])
     .then(function (f){
       res.status(200)
       .json({
