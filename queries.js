@@ -7,7 +7,7 @@ var options = {
 };
 
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://postgres:a@localhost:5432/chamados';
+var connectionString = 'postgres://postgres:info2013@localhost:5432/chamados';
 var db = pgp(connectionString);
 
 function tokenValido(t) {
@@ -106,7 +106,6 @@ function getUsuario(req, res, next) {
       });
   }
 }
-
 
 // **************
 // EMPRESA
@@ -549,20 +548,20 @@ function updateAvatar(req, res, next) {
     var bytes = new Buffer(req.file.buffer, 'base64').toString('base64');
     var id = req.params.id;
     db.query('update usuarios set imagem = $1 where id = $2', [bytes, id])
-    .then(function (f){
-      res.status(200)
-      .json({
-        status: 'success',
-        message: 'Imagem alterada com sucesso!' 
+      .then(function (f) {
+        res.status(200)
+          .json({
+            status: 'success',
+            message: 'Imagem alterada com sucesso!'
+          })
+      }).catch(function (e) {
+        res.status(200)
+          .json({
+            status: 'error',
+            message: 'ERRO: ' + e
+          });
       })
-    }).catch(function (e) {
-      res.status(200)
-      .json({
-        status: 'error',
-        message: 'ERRO: ' +e 
-      });
-    })
-    
+
   })
 }
 
@@ -672,24 +671,43 @@ function deleteComponente(req, res, next) {
  *******************/
 
 function getTodosTicketsPorEmpresa(req, res, next) {
-  var id = req.params.empresa;
-  db.any('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente from tickets t join produtos p on p.id = t.produto '+
-          'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa where t.empresa = $1', id)
+  var empresa = req.params.empresa;
+  var usuario = req.params.usuario;
+
+  db.one('select adm from usuarios where id = $1', usuario)
     .then(function (data) {
-      res.status(200)
-        .json({
-          data: data
-        });
-    })
-    .catch(function (err) {
-      return next(err);
+      if (data.adm) {
+        db.any('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente from tickets t join produtos p on p.id = t.produto ' +
+          'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa')
+          .then(function (data) {
+            res.status(200)
+              .json({
+                data: data
+              });
+          })
+          .catch(function (err) {
+            return next(err);
+          })
+      } else {
+        db.any('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente from tickets t join produtos p on p.id = t.produto ' +
+          'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa where t.empresa = $1', empresa)
+          .then(function (data) {
+            res.status(200)
+              .json({
+                data: data
+              });
+          })
+          .catch(function (err) {
+            return next(err);
+          })
+      }
     })
 }
 
 function adicionarTicket(req, res, next) {
   var objeto = JSON.parse(req.params.ticket);
   db.query('insert into tickets(produto,empresa,componente,dt_abertura,prioridade,sumario,descricao,usuario,estado)'
-           +' values($1,$2,$3,$4,$5,$6,$7,$8,$9) returning id', [objeto.produto, objeto.empresa, objeto.componente, objeto.dt_abertura, objeto.prioridade, objeto.sumario, objeto.descricao, objeto.usuario, objeto.estado])
+    + ' values($1,$2,$3,$4,$5,$6,$7,$8,$9) returning id', [objeto.produto, objeto.empresa, objeto.componente, objeto.dt_abertura, objeto.prioridade, objeto.sumario, objeto.descricao, objeto.usuario, objeto.estado])
     .then(function (f) {
       res.status(200)
         .json({
@@ -707,8 +725,8 @@ function adicionarTicket(req, res, next) {
 
 function adicionarTicketComentario(req, res, next) {
   var objeto = JSON.parse(req.params.obj);
-  db.query('insert into tickets_comentarios(ticket,descricao,anexo,dt_envio,usuario) values($1,$2,$3,$4,$5)', 
-  [objeto.id, objeto.descricao, objeto.anexo, objeto.dt_envio, objeto.usuario])
+  db.query('insert into tickets_comentarios(ticket,descricao,anexo,dt_envio,usuario) values($1,$2,$3,$4,$5)',
+    [objeto.id, objeto.descricao, objeto.anexo, objeto.dt_envio, objeto.usuario])
     .then(function (f) {
       res.status(200)
         .json({
@@ -725,10 +743,10 @@ function adicionarTicketComentario(req, res, next) {
 
 function getTicketPorId(req, res, next) {
   var id = req.params.id;
-  db.one('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente, t.sumario, t.descricao, u.nome as usuario, t.anexo, t.anexo_nome, t.anexo_mimetype '+
-          'from tickets t join produtos p on p.id = t.produto '+
-          'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa join usuarios u on t.usuario = u.id '+
-          'where t.id = $1', id)
+  db.one('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente, t.sumario, t.descricao, u.nome as usuario, t.anexo, t.anexo_nome, t.anexo_mimetype ' +
+    'from tickets t join produtos p on p.id = t.produto ' +
+    'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa join usuarios u on t.usuario = u.id ' +
+    'where t.id = $1', id)
     .then(function (data) {
       res.status(200)
         .json({
@@ -755,7 +773,7 @@ function getTicketsComentarios(req, res, next) {
       res.status(200)
         .json({
           status: 'error',
-          message: ''+err
+          message: '' + err
         });
     })
 }
@@ -775,20 +793,20 @@ function addTicketAnexo(req, res, next) {
     var bytes = new Buffer(req.file.buffer, 'base64').toString('base64');
     var id = req.params.id;
     db.query('update tickets set anexo = $1, anexo_nome = $2, anexo_mimetype = $3 where id = $4', [bytes, nome, tipo, id])
-    .then(function (f){
-      res.status(200)
-      .json({
-        status: 'success',
-        message: 'Anexo inserido!' 
+      .then(function (f) {
+        res.status(200)
+          .json({
+            status: 'success',
+            message: 'Anexo inserido!'
+          })
+      }).catch(function (e) {
+        res.status(200)
+          .json({
+            status: 'error',
+            message: 'ERRO: ' + e
+          });
       })
-    }).catch(function (e) {
-      res.status(200)
-      .json({
-        status: 'error',
-        message: 'ERRO: ' +e 
-      });
-    })
-    
+
   })
 }
 
