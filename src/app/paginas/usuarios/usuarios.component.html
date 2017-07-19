@@ -1,0 +1,68 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Cadastro de Usuários
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="/pages/home"><i class="fa fa-home"></i> Home</a></li>
+      <li>Cadastros</li>
+      <li class="active">Usuários</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="row">
+
+              <div class="box-tools">
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input type="text" name="table_search" [(ngModel)]="pesquisaParam" (keyup.enter)="pesquisar()" class="form-control pull-right" placeholder="Código ou Nome">
+                    <div class="input-group-btn">
+                      <button type="submit" class="btn btn-default" (click)="pesquisar()"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-block btn-primary" (click)="novo()">Adicionar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Empresa</th>
+                <th>Admin</th>
+                <th></th>
+              </tr>
+              <tr *ngFor="let item of usuarios">
+                <td (click)="editar(item.id)">{{item.id}}</td>
+                <td (click)="editar(item.id)">{{item.nome}}</td>
+                <td (click)="editar(item.id)">{{item.email}}</td>
+                <td (click)="editar(item.id)">{{item.empresa}}</td>
+                <td (click)="editar(item.id)">
+                  <i class="fa fa-fw fa-check" *ngIf="item.adm"></i>
+                  <i class="fa fa-fw fa-close" *ngIf="!item.adm"></i>
+                </td>
+                <td><button class="btn btn-danger" (click)="deletar(item.id)"><i class="fa fa-fw fa-trash"></i></button></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

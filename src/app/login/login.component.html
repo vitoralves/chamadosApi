@@ -1,0 +1,40 @@
+<div class="login-box login-tamanho">
+  <div class="login-logo">
+    <a ><b>Admin</b>LTE</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg">Faça o login para iniciar uma sessão</p>
+
+    <div class="alert alert-warning alert-dismissible" *ngIf="alerta">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><i class="icon fa fa-warning"></i> Alerta!</h4>
+            {{mensagem}}
+    </div>
+
+    <!--não passei o formLogin como parâmetro pois vou usar o two way data bind-->
+    <form #formLogin="ngForm" (ngSubmit)="logar()">
+      <div class="form-group has-feedback">
+        <input type="email" class="form-control" placeholder="Email" [(ngModel)]="usuario.email" name="email" required>
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" placeholder="Senha" [(ngModel)]="usuario.senha" name="senha" required>
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <!-- /.col -->
+        <div class="col-xs-4" style="float:right;">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+
+    <a [routerLink]="['/login']">Eu perdi minha senha</a><br>
+    <!--<a routerLink="/registrar" class="text-center">Registrar</a>-->
+
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->

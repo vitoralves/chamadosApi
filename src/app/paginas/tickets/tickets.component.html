@@ -1,0 +1,120 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Ticket - Novo
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="/pages/home"><i class="fa fa-home"></i> Home</a></li>
+      <li class="active">Tickets</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="alert {{alertCss}} alert-dismissible" *ngIf="mensagem">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h4><i class="icon fa {{icon}}"></i> {{titulo}}</h4>
+              {{texto}}
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <!-- form start -->
+          <form #form="ngForm" role="form" (ngSubmit)="salvar(form)">
+            <div class="box-body">
+              <div class="row">
+                <!--produto-->
+                <div class="col-md-2">
+                  <div class="form-group" [class.has-error]="!produto.valid && produto.touched" [class.has-feedback]="!produto.valid && produto.touched">
+                    <label for="produto" class="control-label">Produto*</label>
+                    <select name="produto" [(ngModel)]="ticket.produto" class="form-control select2" required #produto="ngModel" (change)="selecionaProduto()"
+                      style="width: 100%;float: left;">
+                    <option *ngFor="let p of produtos" [ngValue]="p.id" ngDefaultControl>{{p.nome}}</option>
+                  </select>
+                    <div *ngIf="!produto.valid && produto.touched" class="alert alert-danger" role="alert">
+                      <i class="icon fa fa-ban"></i> Campo obrigatório!
+                    </div>
+                  </div>
+                </div>
+                <!--componente-->
+                <div class="col-md-2">
+                  <div class="form-group" [class.has-error]="!componente.valid && componente.touched" [class.has-feedback]="!componente.valid && componente.touched">
+                    <label for="componente" class="control-label">Componente*</label>
+                    <select name="componente" [(ngModel)]="ticket.componente" class="form-control select2" required #componente="ngModel" style="width: 100%;float: left;">
+                    <option *ngFor="let c of componentes" [ngValue]="c.id" ngDefaultControl>{{c.nome}}</option>
+                  </select>
+                    <div *ngIf="!componente.valid && componente.touched" class="alert alert-danger" role="alert">
+                      <i class="icon fa fa-ban"></i> Campo obrigatório!
+                    </div>
+                  </div>
+                </div>
+                <!--prioridade-->
+                <div class="col-md-2">
+                  <div class="form-group" [class.has-error]="!prioridade.valid && prioridade.touched" [class.has-feedback]="!prioridade.valid && prioridade.touched">
+                    <label for="prioridade" class="control-label">Prioridade*</label>
+                    <select name="prioridade" [(ngModel)]="ticket.prioridade" class="form-control select2" required #prioridade="ngModel" style="width: 100%;float: left;">
+                    <option value="0">Baixa</option>
+                    <option value="1">Média</option>
+                    <option value="2">Alta</option>
+                    <option value="3">Muito Alta</option>
+                  </select>
+                    <div *ngIf="!prioridade.valid && prioridade.touched" class="alert alert-danger" role="alert">
+                      <i class="icon fa fa-ban"></i> Campo obrigatório!
+                    </div>
+                  </div>
+                </div>
+                <!--sumário-->
+                <div class="col-md-6">
+                  <div class="form-group" [class.has-error]="!sumario.valid && sumario.touched" [class.has-feedback]="!sumario.valid && sumario.touched">
+                    <label for="sumario" class="control-label">Sumário*</label>
+                    <input id="sumario" type="text" class="form-control" placeholder="Sumário" [(ngModel)]="ticket.sumario" name="sumario" required
+                      #sumario="ngModel" />
+                    <div *ngIf="!sumario.valid && sumario.touched" class="alert alert-danger" role="alert">
+                      <i class="icon fa fa-ban"></i> Campo obrigatório!
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--row -->
+              <div class="row">
+                <!--descrição-->
+                <div class="col-md-12">
+                  <div class="form-group" [class.has-error]="!descricao.valid && descricao.touched" [class.has-feedback]="!descricao.valid && descricao.touched">
+                    <label for="descricao" class="control-label">Descrição*</label>
+                    <textarea class="form-control" rows="2" placeholder="Informe a descrição do ticket..." [(ngModel)]="ticket.descricao" name="descricao" required #descricao="ngModel"></textarea>
+                    <div *ngIf="!descricao.valid && descricao.touched" class="alert alert-danger" role="alert">
+                      <i class="icon fa fa-ban"></i> Campo obrigatório!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Anexo -->
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group" >
+                    <label for="anexo" class="control-label">Anexo</label>
+                    <input type="file" id="input" [(ngModel)]="anexo" name="anexo" (change)="alteraAnexo($event)">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.box -->
+      </div>
+    </div>
+  </section>
+</div>

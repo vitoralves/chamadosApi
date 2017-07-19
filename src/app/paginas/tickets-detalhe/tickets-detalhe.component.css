@@ -1,0 +1,16 @@
+.span{
+    font-weight: 500;
+}
+
+.cinza{
+    background: #ddd !important; 
+}
+
+.label-full {
+    width: 100%;
+}
+
+.direita {
+    float: right;
+    font-weight: bold;
+}
