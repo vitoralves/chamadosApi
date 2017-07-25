@@ -704,6 +704,112 @@ function getTodosTicketsPorEmpresa(req, res, next) {
     })
 }
 
+function getTodosTicketsPorId(req, res, next) {
+  var empresa = req.params.empresa;
+  var usuario = req.params.usuario;
+  var ticket = req.params.ticket;
+
+  db.one('select adm from usuarios where id = $1', usuario)
+    .then(function (data) {
+      if (data.adm) {
+        db.any('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente from tickets t join produtos p on p.id = t.produto ' +
+          'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa where t.id = $1', ticket)
+          .then(function (data) {
+            res.status(200)
+              .json({
+                data: data
+              });
+          })
+          .catch(function (err) {
+            return next(err);
+          })
+      } else {
+        db.any('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente from tickets t join produtos p on p.id = t.produto ' +
+          'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa where t.empresa = $1 and t.id = $2', [empresa, ticket])
+          .then(function (data) {
+            res.status(200)
+              .json({
+                data: data
+              });
+          })
+          .catch(function (err) {
+            return next(err);
+          })
+      }
+    })
+}
+
+function getTodosTicketsPorProduto(req, res, next) {
+  var empresa = req.params.empresa;
+  var usuario = req.params.usuario;
+  var produto = req.params.produto;
+
+  db.one('select adm from usuarios where id = $1', usuario)
+    .then(function (data) {
+      if (data.adm) {
+        db.any('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente from tickets t join produtos p on p.id = t.produto ' +
+          'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa where upper(p.nome) like upper(\'%$1#%\')', produto)
+          .then(function (data) {
+            res.status(200)
+              .json({
+                data: data
+              });
+          })
+          .catch(function (err) {
+            return next(err);
+          })
+      } else {
+        db.any('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente from tickets t join produtos p on p.id = t.produto ' +
+          'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa where t.empresa = $1 and upper(p.nome) like upper(\'%$2#%\')', [empresa, produto])
+          .then(function (data) {
+            res.status(200)
+              .json({
+                data: data
+              });
+          })
+          .catch(function (err) {
+            return next(err);
+          })
+      }
+    })
+}
+
+
+function getTodosTicketsPorEstado(req, res, next) {
+  var empresa = req.params.empresa;
+  var usuario = req.params.usuario;
+  var estado = req.params.estado;
+
+  db.one('select adm from usuarios where id = $1', usuario)
+    .then(function (data) {
+      if (data.adm) {
+        db.any('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente from tickets t join produtos p on p.id = t.produto ' +
+          'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa where t.estado = $1', estado)
+          .then(function (data) {
+            res.status(200)
+              .json({
+                data: data
+              });
+          })
+          .catch(function (err) {
+            return next(err);
+          })
+      } else {
+        db.any('select t.id, p.nome as produto, t.estado, c.nome as componente, t.dt_abertura, t.prioridade, e.nome as cliente from tickets t join produtos p on p.id = t.produto ' +
+          'join componentes c on c.id = t.componente join empresas e on e.id = t.empresa where t.empresa = $1 and t.estado = $2', [empresa, estado])
+          .then(function (data) {
+            res.status(200)
+              .json({
+                data: data
+              });
+          })
+          .catch(function (err) {
+            return next(err);
+          })
+      }
+    })
+}
+
 function adicionarTicket(req, res, next) {
   var objeto = JSON.parse(req.params.ticket);
   db.query('insert into tickets(produto,empresa,componente,dt_abertura,prioridade,sumario,descricao,usuario,estado)'
@@ -857,6 +963,9 @@ module.exports = {
   getTicketPorId: getTicketPorId,
   getTicketsComentarios: getTicketsComentarios,
   getTodosTicketsPorEmpresa: getTodosTicketsPorEmpresa,
+  getTodosTicketsPorId: getTodosTicketsPorId,
+  getTodosTicketsPorProduto: getTodosTicketsPorProduto,
+  getTodosTicketsPorEstado: getTodosTicketsPorEstado,
   adicionarTicket: adicionarTicket,
   adicionarTicketComentario: adicionarTicketComentario,
   addTicketAnexo: addTicketAnexo,
